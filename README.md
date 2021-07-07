@@ -25,4 +25,10 @@ bicep build ***MainBuild.bicep***
 
 The ***Configuration.zip*** file contains all the DSC and scripts required for the AVD build.
 
-MORE INFORMATION WILL BE ADDED.
+View my blog post at 
+
+https://tighetec.co.uk/2021/07/07/deploy-azure-virtual-desktop-with-project-bicep/
+
+for full information on how this was created.
+
+**I will add the full list of parameters used shortly**
