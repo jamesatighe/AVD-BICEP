@@ -1,0 +1,132 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "AzTenantID": {
+            "value": "48703183-3f26-4235-b163-7778a436de6f"
+        },
+        "artifactsLocation": {
+            "value": "https://abriwvddev.blob.core.windows.net/templates/" 
+        },
+        "AVDResourceGroup": {
+            "value": "rg-prod-avd" 
+        },
+        "workspaceLocation": {
+            "value": "westeurope" 
+        },
+        "tokenExpirationTime": {
+            "value": "2021-06-30T00:00:01Z"
+        },
+        "ouPath": {
+            "value": "OU=AVD,OU=Servers,DC=james-tighe,DC=co,DC=uk"
+        },
+        "domain": {
+            "value": "james-tighe.co.uk"
+        },
+        "newBuild": {
+            "value": true
+        },
+        "administratorAccountUserName": {
+            "value": "james@james-tighe.co.uk"
+        },
+        "administratorAccountPassword": {
+            "value": "Pass.123"
+        },
+        "hostPoolType": {
+            "value": "Pooled"
+        },
+        "hostPoolName": {
+            "value": "AVD-PROD-HP"
+        },
+        "personalDesktopAssignmentType": {
+            "value": "Direct"
+        },
+        "maxSessionLimit": {
+            "value": 10
+        },
+        "loadBalancerType": {
+            "value": "BreadthFirst"
+        },
+        "customRdpProperty": {
+            "value": "audiocapturemode:i:1;audiomode:i:0;camerastoredirect:s:*;devicestoredirect:s:*;drivestoredirect:s:;redirectclipboard:i:1;redirectcomports:i:0;redirectprinters:i:1;redirectsmartcards:i:1;screen mode id:i:2" 
+        },
+        "hostPoolFriendlyName": {
+            "value": "TigheTec AVD"
+        },
+        "workspaceName": {
+            "value": "AVD-PROD-WS"
+        },
+        "appGroupFriendlyName": {
+            "value": "AVD-PROD-DAG"
+        },
+        "applicationGroupReferences": {
+            "value": ""
+        },
+        "desktopName": {
+            "value": "TigheTec Desktop"
+        },
+        "defaultUsers": {
+            "value": "james@james-tighe.co.uk" 
+        },
+        "appID": {
+            "value": "" 
+        },
+        "appSecret": {
+            "value": ""
+        },
+        "vmResourceGroup": {
+            "value": "rg-prod-avd-vms"
+        },
+        "vmLocation": {
+            "value": "westeurope"
+        },
+        "vmSize": {
+            "value": "Standard_D8_v4"
+        },
+        "numberOfInstances": {
+            "value": 2
+        },
+        "currentInstances": {
+            "value": 0
+        },
+        "vmPrefix": {
+            "value": "AVD-PROD"
+        },
+        "vmDiskType": {
+            "value": "Premium_LRS"
+        },
+        "existingVNETResourceGroup": {
+            "value": "rg-UKS-WVD-Networking"
+        },
+        "existingVNETName": {
+            "value": "vnet-uks-wvd"
+        },
+        "existingSubnetName": {
+            "value": "vNET-UKS-WVD-SUBNET"
+        },
+        "sharedImageGallerySubscription": {
+            "value": "d388d49e-6f82-4222-a977-e8a11a9a6c90"
+        },
+        "sharedImageGalleryResourceGroup": {
+            "value": "rg-we-aibimage"
+        },
+        "sharedImageGalleryName": {
+            "value": "sig_we_main"
+        },
+        "sharedImageGalleryDefinitionname": {
+            "value": "WVDGolden"
+        },
+        "sharedImageGalleryVersionName": {
+            "value": "1.0.0"
+        },
+        "logworkspaceSub": {
+            "value": "685e9cfb-e024-4973-bdae-52ed260e04f8"
+        },
+        "logworkspaceResourceGroup": {
+            "value": "rg-prod-wvd"
+        },
+        "logworkspaceName": {
+            "value" : "log-uks-abri-wvd"
+        }
+    }
+}
