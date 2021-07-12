@@ -98,11 +98,22 @@ param sharedImageGalleryDefinitionname string
 @description('Version name for image to be deployed as. I.e: 1.0.0')
 param sharedImageGalleryVersionName string
 
+@description('Subscription that Log Analytics Workspace is located in.')
 param logworkspaceSub string
+@description('Resource Group that Log Analytics Workspace is located in.')
 param logworkspaceResourceGroup string
+@description('Name of Log Analytics Workspace for AVD to be joined to.')
 param logworkspaceName string
 
 var subnetId = subscriptionResourceId('Microsoft.Network/virtualNetworks/subnets', existingVNETName, existingSubnetName)
+
+module resourceGroupDeploy 'resourceGroup.bicep' = {
+  name: 'backPlane'
+  params: {
+    AVDResourceGroup: AVDResourceGroup
+    vmResourceGroup: vmResourceGroup
+  }
+}
 
 module backPlane './backPlane.bicep' = {
   name: 'backPlane'
@@ -126,6 +137,9 @@ module backPlane './backPlane.bicep' = {
     maxSessionLimit: maxSessionLimit
     newBuild: newBuild
   }
+  dependsOn: [
+    resourceGroupDeploy
+  ]
 }
 
 module VMs './VMs.bicep' = {
