@@ -43,7 +43,7 @@ param customRdpProperty string
 param hostPoolFriendlyName string
 
 @description('Name of the AVD Workspace to used for this deployment')
-param workspaceName string = 'ABRI-AVD-PRDO'
+param workspaceName string = 'ABRI-AVD-PROD'
 param appGroupFriendlyName string
 
 // @description('Log Analytics workspace ID to join AVD to.')
@@ -116,9 +116,8 @@ module Monitoring './Monitoring.bicep' = {
   }
   dependsOn: [
     workspace
-    hostPool 
+    hostPool
   ]
 }
 
-output hostPoolToken string = reference(hostPool.id, '2019-12-10-preview').registrationInfo.token
 output appGroupName string = appGroupName
