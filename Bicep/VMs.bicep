@@ -107,6 +107,12 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-06-01' = [for i in range(0, 
       computerName: '${vmPrefix}-${i + currentInstances}'
       adminUsername: existingDomainUserName
       adminPassword: administratorAccountPassword
+      windowsConfiguration: {
+        enableAutomaticUpdates: false
+        patchSettings: {
+          patchMode: 'Manual'
+        }
+      }
     }
     storageProfile: {
       osDisk: {
@@ -147,9 +153,8 @@ resource languagefix 'Microsoft.Compute/virtualMachines/extensions@2020-12-01' =
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://abriwvddev.blob.core.windows.net/templates/languagescript.ps1'
-        'https://abriwvddev.blob.core.windows.net/templates/UKRegion.xml'
-        'https://abriwvddev.blob.core.windows.net/templates/RegisterWin10Apps.ps1'
+        '${artifactsLocation}languagescript.ps1'
+        '${artifactsLocation}UKRegion.xml'
       ]
     }
     protectedSettings: {
