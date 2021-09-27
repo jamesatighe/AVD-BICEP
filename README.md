@@ -31,4 +31,6 @@ https://tighetec.co.uk/2021/07/07/deploy-azure-virtual-desktop-with-project-bice
 
 for full information on how this was created.
 
-**I will add the full list of parameters used shortly**
+**UPDATE**
+
+Added the AVD-Dev-Variables.xlsx file with full listing of the Static and Selectable Variables used for deployment.
