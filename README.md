@@ -33,4 +33,4 @@ for full information on how this was created.
 
 **UPDATE**
 
-Added the AVD-Dev-Variables.xlsx file with full listing of the Static and Selectable Variables used for deployment.
+Added the **AVD-Dev-Variables.xlsx** file with full listing of the Static and Selectable Variables used for deployment.
