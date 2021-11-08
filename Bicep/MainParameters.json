@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "AzTenantID": {
-            "value": "48703183-3f26-4235-b163-7778a436de6f"
+            "value": ""
         },
         "artifactsLocation": {
-            "value": "https://abriwvddev.blob.core.windows.net/templates/" 
+            "value": "" 
         },
         "AVDResourceGroup": {
             "value": "rg-prod-avd" 
@@ -18,16 +18,16 @@
             "value": "2021-06-30T00:00:01Z"
         },
         "ouPath": {
-            "value": "OU=AVD,OU=Servers,DC=james-tighe,DC=co,DC=uk"
+            "value": "OU=AVD,OU=Servers,DC=Domain,DC=co,DC=uk"
         },
         "domain": {
-            "value": "james-tighe.co.uk"
+            "value": "domain.co.uk"
         },
         "newBuild": {
             "value": true
         },
         "administratorAccountUserName": {
-            "value": "james@james-tighe.co.uk"
+            "value": "user@domain.co.uk"
         },
         "administratorAccountPassword": {
             "value": "Pass.123"
@@ -66,7 +66,7 @@
             "value": "TigheTec Desktop"
         },
         "defaultUsers": {
-            "value": "james@james-tighe.co.uk" 
+            "value": "user@domain.co.uk" 
         },
         "appID": {
             "value": "" 
@@ -96,19 +96,19 @@
             "value": "Premium_LRS"
         },
         "existingVNETResourceGroup": {
-            "value": "rg-UKS-WVD-Networking"
+            "value": "vNET-RG"
         },
         "existingVNETName": {
-            "value": "vnet-uks-wvd"
+            "value": "vNET"
         },
         "existingSubnetName": {
-            "value": "vNET-UKS-WVD-SUBNET"
+            "value": "vNET-Subnet"
         },
         "sharedImageGallerySubscription": {
-            "value": "d388d49e-6f82-4222-a977-e8a11a9a6c90"
+            "value": "SIG-Sub"
         },
         "sharedImageGalleryResourceGroup": {
-            "value": "rg-we-aibimage"
+            "value": "SIG-RG"
         },
         "sharedImageGalleryName": {
             "value": "sig_we_main"
@@ -120,13 +120,13 @@
             "value": "1.0.0"
         },
         "logworkspaceSub": {
-            "value": "685e9cfb-e024-4973-bdae-52ed260e04f8"
+            "value": "LOG-Sub"
         },
         "logworkspaceResourceGroup": {
             "value": "rg-prod-wvd"
         },
         "logworkspaceName": {
-            "value" : "log-uks-abri-wvd"
+            "value" : "log-ws"
         }
     }
 }
