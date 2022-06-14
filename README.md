@@ -1,4 +1,12 @@
 # AVD-BICEP
+
+**UPDATED 14/06/2022**
+New directory contains updated BICEP files. These new BICEP files remove any compile errors and optimize the Monitoring script slightly. 
+Using the BICEP scope keywork to create the MicrosoftInsights/DiagnosticSettings against an existing resource symbolic link.
+
+Also cleaned up so unused code.
+
+**About**
 A full Azure Virtual Desktop Deployment authored in BICEP
 
 This code was designed to deploy a fully functioning AVD environment. This environment consists of:
@@ -31,6 +39,4 @@ https://tighetec.co.uk/2021/07/07/deploy-azure-virtual-desktop-with-project-bice
 
 for full information on how this was created.
 
-**UPDATE**
-
-Added the **AVD-Dev-Variables.xlsx** file with full listing of the Static and Selectable Variables used for deployment.
+The **AVD-Dev-Variables.xlsx** file with full listing of the Static and Selectable Variables used for deployment. This is due to change dependant on deployment.
