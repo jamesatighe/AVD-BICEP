@@ -1,12 +1,14 @@
+# AVD-BICEP
+
 **Updates**
 
 Added the ability to add AVD Session Hosts to Log Analytics workspace.
 
 This requires 2 new variables to be set on deployment.
 
-**workspaceID**
+- **workspaceID**
 
-**workspaceKey**
+- **workspaceKey**
 
 Then set the ***monitoringAgent*** parameter to true. 
 
@@ -20,20 +22,22 @@ Previously the way the monitoring module was scripted was generating BICEP compi
 
 The fix for this was to use the BICEP **scope** property to create a new child resource (monitoring extension) scoped to an parent resource.
 
+https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/scope-extension-resources
+
 I had to get the existing resource using the below
 
-**resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2021-07-12' existign = {
-  name: hostPoolName
-}
+    resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2021-07-12' existing = {
+        name: hostPoolName
+    }
 
 Then change the start of the diagnosticSettings resource to the below:
 
-**resource hostPoolDiagName 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: 'hostpool-diag'
-  scope: hostPool
-  ..
-  ..
- }**
+    resource hostPoolDiagName 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+        name: 'hostpool-diag'
+        scope: hostPool
+        ..
+        ..
+    }
 
 This allowed the extension to be created under the scope of the existing Host Pool resource, and removed the compile warning.
 
