@@ -1,0 +1,1203 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.1272.37030",
+      "templateHash": "3996725962255505082"
+    }
+  },
+  "parameters": {
+    "AzTenantID": {
+      "type": "string"
+    },
+    "artifactsLocation": {
+      "type": "string"
+    },
+    "AVDResourceGroup": {
+      "type": "string"
+    },
+    "workspaceLocation": {
+      "type": "string"
+    },
+    "monitoringAgent": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Boolean used to determine if Monitoring agent is needed"
+      }
+    },
+    "tokenExpirationTime": {
+      "type": "string",
+      "metadata": {
+        "description": "Expiration time for the HostPool registration token. This must be up to 30 days from todays date."
+      }
+    },
+    "ouPath": {
+      "type": "string",
+      "metadata": {
+        "description": "OU Path were new AVD Session Hosts will be placed in Active Directory"
+      }
+    },
+    "domain": {
+      "type": "string",
+      "metadata": {
+        "description": "Domain that AVD Session Hosts will be joined to."
+      }
+    },
+    "newBuild": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "If true Host Pool, App Group and Workspace will be created. Default is to join Session Hosts to existing AVD environment"
+      }
+    },
+    "administratorAccountUserName": {
+      "type": "string"
+    },
+    "administratorAccountPassword": {
+      "type": "secureString"
+    },
+    "hostPoolType": {
+      "type": "string",
+      "defaultValue": "Pooled",
+      "allowedValues": [
+        "Personal",
+        "Pooled"
+      ]
+    },
+    "hostPoolName": {
+      "type": "string"
+    },
+    "personalDesktopAssignmentType": {
+      "type": "string",
+      "defaultValue": "Direct",
+      "allowedValues": [
+        "Automatic",
+        "Direct"
+      ]
+    },
+    "maxSessionLimit": {
+      "type": "int",
+      "defaultValue": 12
+    },
+    "loadBalancerType": {
+      "type": "string",
+      "defaultValue": "BreadthFirst",
+      "allowedValues": [
+        "BreadthFirst",
+        "DepthFirst",
+        "Persistent"
+      ]
+    },
+    "customRdpProperty": {
+      "type": "string",
+      "metadata": {
+        "description": "Custom RDP properties to be applied to the AVD Host Pool."
+      }
+    },
+    "hostPoolFriendlyName": {
+      "type": "string",
+      "metadata": {
+        "description": "Friendly Name of the Host Pool, this is visible via the AVD client"
+      }
+    },
+    "workspaceName": {
+      "type": "string",
+      "defaultValue": "ABRI-AVD-PROD",
+      "metadata": {
+        "description": "Name of the AVD Workspace to used for this deployment"
+      }
+    },
+    "appGroupFriendlyName": {
+      "type": "string"
+    },
+    "applicationGroupReferences": {
+      "type": "string",
+      "metadata": {
+        "description": "List of application group resource IDs to be added to Workspace. MUST add existing ones!"
+      }
+    },
+    "desktopName": {
+      "type": "string"
+    },
+    "defaultUsers": {
+      "type": "string",
+      "metadata": {
+        "description": "CSV list of default users to assign to AVD Application Group."
+      }
+    },
+    "appID": {
+      "type": "string",
+      "metadata": {
+        "description": "Application ID for Service Principal. Used for DSC scripts."
+      }
+    },
+    "appSecret": {
+      "type": "string",
+      "metadata": {
+        "description": "Application Secret for Service Principal."
+      }
+    },
+    "vmResourceGroup": {
+      "type": "string"
+    },
+    "vmLocation": {
+      "type": "string"
+    },
+    "vmSize": {
+      "type": "string"
+    },
+    "numberOfInstances": {
+      "type": "int",
+      "defaultValue": 2
+    },
+    "currentInstances": {
+      "type": "int",
+      "defaultValue": 0
+    },
+    "vmPrefix": {
+      "type": "string",
+      "defaultValue": "ABRI-AVD-PROD"
+    },
+    "vmDiskType": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_LRS",
+        "Premium_LRS"
+      ]
+    },
+    "existingVNETResourceGroup": {
+      "type": "string"
+    },
+    "existingVNETName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the VNET that the AVD Session Hosts will be connected to."
+      }
+    },
+    "existingSubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the relevant VNET Subnet that is to be used for deployment."
+      }
+    },
+    "sharedImageGallerySubscription": {
+      "type": "string",
+      "metadata": {
+        "description": "Subscription containing the Shared Image Gallery"
+      }
+    },
+    "sharedImageGalleryResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Group containing the Shared Image Gallery."
+      }
+    },
+    "sharedImageGalleryName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the existing Shared Image Gallery to be used for image."
+      }
+    },
+    "sharedImageGalleryDefinitionname": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Shared Image Gallery Definition being used for deployment. I.e: AVDGolden"
+      }
+    },
+    "sharedImageGalleryVersionName": {
+      "type": "string",
+      "metadata": {
+        "description": "Version name for image to be deployed as. I.e: 1.0.0"
+      }
+    },
+    "logworkspaceSub": {
+      "type": "string",
+      "metadata": {
+        "description": "Subscription that Log Analytics Workspace is located in."
+      }
+    },
+    "logworkspaceResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Group that Log Analytics Workspace is located in."
+      }
+    },
+    "logworkspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of Log Analytics Workspace for AVD to be joined to."
+      }
+    },
+    "workspaceID": {
+      "type": "string",
+      "metadata": {
+        "description": "Log Analytics Workspace ID"
+      }
+    },
+    "workspaceKey": {
+      "type": "string",
+      "metadata": {
+        "description": "Log Analytics Workspace Key"
+      }
+    },
+    "tagParams": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "backPlane",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "AVDResourceGroup": {
+            "value": "[parameters('AVDResourceGroup')]"
+          },
+          "AVDlocation": {
+            "value": "[parameters('workspaceLocation')]"
+          },
+          "vmResourceGroup": {
+            "value": "[parameters('vmResourceGroup')]"
+          },
+          "VMlocation": {
+            "value": "[parameters('vmLocation')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1272.37030",
+              "templateHash": "9140292711885968432"
+            }
+          },
+          "parameters": {
+            "VMlocation": {
+              "type": "string"
+            },
+            "AVDlocation": {
+              "type": "string"
+            },
+            "AVDResourceGroup": {
+              "type": "string"
+            },
+            "vmResourceGroup": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Resources/resourceGroups",
+              "apiVersion": "2021-01-01",
+              "name": "[parameters('vmResourceGroup')]",
+              "location": "[parameters('VMlocation')]"
+            },
+            {
+              "type": "Microsoft.Resources/resourceGroups",
+              "apiVersion": "2021-01-01",
+              "name": "[parameters('AVDResourceGroup')]",
+              "location": "[parameters('AVDlocation')]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "backPlane",
+      "resourceGroup": "[parameters('AVDResourceGroup')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('workspaceLocation')]"
+          },
+          "workspaceLocation": {
+            "value": "[parameters('workspaceLocation')]"
+          },
+          "logworkspaceSub": {
+            "value": "[parameters('logworkspaceSub')]"
+          },
+          "logworkspaceResourceGroup": {
+            "value": "[parameters('logworkspaceResourceGroup')]"
+          },
+          "logworkspaceName": {
+            "value": "[parameters('logworkspaceName')]"
+          },
+          "hostPoolName": {
+            "value": "[parameters('hostPoolName')]"
+          },
+          "hostPoolFriendlyName": {
+            "value": "[parameters('hostPoolFriendlyName')]"
+          },
+          "hostPoolType": {
+            "value": "[parameters('hostPoolType')]"
+          },
+          "appGroupFriendlyName": {
+            "value": "[parameters('appGroupFriendlyName')]"
+          },
+          "applicationGroupReferences": {
+            "value": "[parameters('applicationGroupReferences')]"
+          },
+          "loadBalancerType": {
+            "value": "[parameters('loadBalancerType')]"
+          },
+          "workspaceName": {
+            "value": "[parameters('workspaceName')]"
+          },
+          "personalDesktopAssignmentType": {
+            "value": "[parameters('personalDesktopAssignmentType')]"
+          },
+          "customRdpProperty": {
+            "value": "[parameters('customRdpProperty')]"
+          },
+          "tokenExpirationTime": {
+            "value": "[parameters('tokenExpirationTime')]"
+          },
+          "maxSessionLimit": {
+            "value": "[parameters('maxSessionLimit')]"
+          },
+          "newBuild": {
+            "value": "[parameters('newBuild')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1272.37030",
+              "templateHash": "17273201935336386704"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string"
+            },
+            "workspaceLocation": {
+              "type": "string",
+              "allowedValues": [
+                "eastus",
+                "westus",
+                "westeurope",
+                "northeurope",
+                "uksouth"
+              ]
+            },
+            "newBuild": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "If true Host Pool, App Group and Workspace will be created. Default is to join Session Hosts to existing AVD environment"
+              }
+            },
+            "tokenExpirationTime": {
+              "type": "string",
+              "metadata": {
+                "description": "Expiration time for the HostPool registration token. This must be up to 30 days from todays date."
+              }
+            },
+            "hostPoolType": {
+              "type": "string",
+              "defaultValue": "Pooled",
+              "allowedValues": [
+                "Personal",
+                "Pooled"
+              ]
+            },
+            "hostPoolName": {
+              "type": "string"
+            },
+            "personalDesktopAssignmentType": {
+              "type": "string",
+              "defaultValue": "Direct",
+              "allowedValues": [
+                "Automatic",
+                "Direct"
+              ]
+            },
+            "maxSessionLimit": {
+              "type": "int",
+              "defaultValue": 12
+            },
+            "loadBalancerType": {
+              "type": "string",
+              "defaultValue": "BreadthFirst",
+              "allowedValues": [
+                "BreadthFirst",
+                "DepthFirst",
+                "Persistent"
+              ]
+            },
+            "customRdpProperty": {
+              "type": "string",
+              "metadata": {
+                "description": "Custom RDP properties to be applied to the AVD Host Pool."
+              }
+            },
+            "hostPoolFriendlyName": {
+              "type": "string",
+              "metadata": {
+                "description": "Friendly Name of the Host Pool, this is visible via the AVD client"
+              }
+            },
+            "workspaceName": {
+              "type": "string",
+              "defaultValue": "ABRI-AVD-PROD",
+              "metadata": {
+                "description": "Name of the AVD Workspace to used for this deployment"
+              }
+            },
+            "appGroupFriendlyName": {
+              "type": "string"
+            },
+            "logworkspaceSub": {
+              "type": "string"
+            },
+            "logworkspaceResourceGroup": {
+              "type": "string"
+            },
+            "logworkspaceName": {
+              "type": "string"
+            },
+            "applicationGroupReferences": {
+              "type": "string",
+              "metadata": {
+                "description": "List of application group resource IDs to be added to Workspace. MUST add existing ones!"
+              }
+            }
+          },
+          "variables": {
+            "appGroupName": "[format('{0}-DAG', parameters('hostPoolName'))]",
+            "appGroupResourceID": "[array(resourceId('Microsoft.DesktopVirtualization/applicationgroups/', variables('appGroupName')))]",
+            "applicationGroupReferencesArr": "[if(equals(parameters('applicationGroupReferences'), ''), variables('appGroupResourceID'), concat(split(parameters('applicationGroupReferences'), ','), variables('appGroupResourceID')))]"
+          },
+          "resources": [
+            {
+              "condition": "[parameters('newBuild')]",
+              "type": "Microsoft.DesktopVirtualization/hostPools",
+              "apiVersion": "2019-12-10-preview",
+              "name": "[parameters('hostPoolName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "friendlyName": "[parameters('hostPoolFriendlyName')]",
+                "hostPoolType": "[parameters('hostPoolType')]",
+                "loadBalancerType": "[parameters('loadBalancerType')]",
+                "customRdpProperty": "[parameters('customRdpProperty')]",
+                "preferredAppGroupType": "Desktop",
+                "personalDesktopAssignmentType": "[parameters('personalDesktopAssignmentType')]",
+                "maxSessionLimit": "[parameters('maxSessionLimit')]",
+                "validationEnvironment": false,
+                "registrationInfo": {
+                  "expirationTime": "[parameters('tokenExpirationTime')]",
+                  "token": null,
+                  "registrationTokenOperation": "Update"
+                }
+              }
+            },
+            {
+              "condition": "[parameters('newBuild')]",
+              "type": "Microsoft.DesktopVirtualization/applicationGroups",
+              "apiVersion": "2019-12-10-preview",
+              "name": "[variables('appGroupName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "friendlyName": "[parameters('appGroupFriendlyName')]",
+                "applicationGroupType": "Desktop",
+                "description": "Deskop Application Group created through Abri Deploy process.",
+                "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostpools', parameters('hostPoolName'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('hostPoolName'))]"
+              ]
+            },
+            {
+              "condition": "[parameters('newBuild')]",
+              "type": "Microsoft.DesktopVirtualization/workspaces",
+              "apiVersion": "2019-12-10-preview",
+              "name": "[parameters('workspaceName')]",
+              "location": "[parameters('workspaceLocation')]",
+              "properties": {
+                "applicationGroupReferences": "[variables('applicationGroupReferencesArr')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', variables('appGroupName'))]"
+              ]
+            },
+            {
+              "condition": "[parameters('newBuild')]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "Monitoring",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "hostpoolName": {
+                    "value": "[parameters('hostPoolName')]"
+                  },
+                  "workspaceName": {
+                    "value": "[parameters('workspaceName')]"
+                  },
+                  "appgroupName": {
+                    "value": "[variables('appGroupName')]"
+                  },
+                  "logworkspaceSub": {
+                    "value": "[parameters('logworkspaceSub')]"
+                  },
+                  "logworkspaceResourceGroup": {
+                    "value": "[parameters('logworkspaceResourceGroup')]"
+                  },
+                  "logworkspaceName": {
+                    "value": "[parameters('logworkspaceName')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1272.37030",
+                      "templateHash": "16718629399431634910"
+                    }
+                  },
+                  "parameters": {
+                    "logworkspaceSub": {
+                      "type": "string"
+                    },
+                    "logworkspaceResourceGroup": {
+                      "type": "string"
+                    },
+                    "logworkspaceName": {
+                      "type": "string"
+                    },
+                    "hostpoolName": {
+                      "type": "string"
+                    },
+                    "workspaceName": {
+                      "type": "string"
+                    },
+                    "appgroupName": {
+                      "type": "string"
+                    }
+                  },
+                  "variables": {
+                    "logworkspaceId": "[format('/subscriptions/{0}/resourcegroups/{1}/providers/microsoft.operationalinsights/workspaces/{2} ', parameters('logworkspaceSub'), parameters('logworkspaceResourceGroup'), parameters('logworkspaceName'))]"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Insights/diagnosticSettings",
+                      "apiVersion": "2021-05-01-preview",
+                      "scope": "[format('Microsoft.DesktopVirtualization/hostPools/{0}', parameters('hostpoolName'))]",
+                      "name": "hostpool-diag",
+                      "properties": {
+                        "workspaceId": "[variables('logworkspaceId')]",
+                        "logs": [
+                          {
+                            "category": "Checkpoint",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Error",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Management",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Connection",
+                            "enabled": true
+                          },
+                          {
+                            "category": "HostRegistration",
+                            "enabled": true
+                          },
+                          {
+                            "category": "AgentHealthStatus",
+                            "enabled": true
+                          },
+                          {
+                            "category": "NetworkData",
+                            "enabled": true
+                          },
+                          {
+                            "category": "SessionHostManagement",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Insights/diagnosticSettings",
+                      "apiVersion": "2021-05-01-preview",
+                      "scope": "[format('Microsoft.DesktopVirtualization/workspaces/{0}', parameters('workspaceName'))]",
+                      "name": "workspacepool-diag",
+                      "properties": {
+                        "workspaceId": "[variables('logworkspaceId')]",
+                        "logs": [
+                          {
+                            "category": "Checkpoint",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Error",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Management",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Feed",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Insights/diagnosticSettings",
+                      "apiVersion": "2021-05-01-preview",
+                      "scope": "[format('Microsoft.DesktopVirtualization/applicationGroups/{0}', parameters('appgroupName'))]",
+                      "name": "appgroup-diag",
+                      "properties": {
+                        "workspaceId": "[variables('logworkspaceId')]",
+                        "logs": [
+                          {
+                            "category": "Checkpoint",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Error",
+                            "enabled": true
+                          },
+                          {
+                            "category": "Management",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('hostPoolName'))]",
+                "[resourceId('Microsoft.DesktopVirtualization/workspaces', parameters('workspaceName'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "appGroupName": {
+              "type": "string",
+              "value": "[variables('appGroupName')]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/deployments', 'backPlane')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('{0}-VMswithLA', parameters('sharedImageGalleryVersionName'))]",
+      "resourceGroup": "[parameters('vmResourceGroup')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "AzTenantID": {
+            "value": "[parameters('AzTenantID')]"
+          },
+          "location": {
+            "value": "[parameters('vmLocation')]"
+          },
+          "administratorAccountUserName": {
+            "value": "[parameters('administratorAccountUserName')]"
+          },
+          "administratorAccountPassword": {
+            "value": "[parameters('administratorAccountPassword')]"
+          },
+          "artifactsLocation": {
+            "value": "[parameters('artifactsLocation')]"
+          },
+          "vmDiskType": {
+            "value": "[parameters('vmDiskType')]"
+          },
+          "vmPrefix": {
+            "value": "[parameters('vmPrefix')]"
+          },
+          "vmSize": {
+            "value": "[parameters('vmSize')]"
+          },
+          "currentInstances": {
+            "value": "[parameters('currentInstances')]"
+          },
+          "AVDnumberOfInstances": {
+            "value": "[parameters('numberOfInstances')]"
+          },
+          "existingVNETResourceGroup": {
+            "value": "[parameters('existingVNETResourceGroup')]"
+          },
+          "existingVNETName": {
+            "value": "[parameters('existingVNETName')]"
+          },
+          "existingSubnetName": {
+            "value": "[parameters('existingSubnetName')]"
+          },
+          "sharedImageGallerySubscription": {
+            "value": "[parameters('sharedImageGallerySubscription')]"
+          },
+          "sharedImageGalleryResourceGroup": {
+            "value": "[parameters('sharedImageGalleryResourceGroup')]"
+          },
+          "sharedImageGalleryName": {
+            "value": "[parameters('sharedImageGalleryName')]"
+          },
+          "sharedImageGalleryDefinitionname": {
+            "value": "[parameters('sharedImageGalleryDefinitionname')]"
+          },
+          "sharedImageGalleryVersionName": {
+            "value": "[parameters('sharedImageGalleryVersionName')]"
+          },
+          "hostPoolName": {
+            "value": "[parameters('hostPoolName')]"
+          },
+          "domainToJoin": {
+            "value": "[parameters('domain')]"
+          },
+          "ouPath": {
+            "value": "[parameters('ouPath')]"
+          },
+          "appGroupName": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('AVDResourceGroup')), 'Microsoft.Resources/deployments', 'backPlane'), '2019-10-01').outputs.appGroupName.value]"
+          },
+          "appID": {
+            "value": "[parameters('appID')]"
+          },
+          "appSecret": {
+            "value": "[parameters('appSecret')]"
+          },
+          "defaultUsers": {
+            "value": "[parameters('defaultUsers')]"
+          },
+          "desktopName": {
+            "value": "[parameters('desktopName')]"
+          },
+          "resourceGroupName": {
+            "value": "[parameters('AVDResourceGroup')]"
+          },
+          "workspaceID": {
+            "value": "[parameters('workspaceID')]"
+          },
+          "workspaceKey": {
+            "value": "[parameters('workspaceKey')]"
+          },
+          "tagParams": {
+            "value": "[parameters('tagParams')]"
+          },
+          "monitoringAgent": {
+            "value": "[parameters('monitoringAgent')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1272.37030",
+              "templateHash": "10732977223960671199"
+            }
+          },
+          "parameters": {
+            "artifactsLocation": {
+              "type": "string"
+            },
+            "AzTenantID": {
+              "type": "secureString"
+            },
+            "AVDnumberOfInstances": {
+              "type": "int"
+            },
+            "currentInstances": {
+              "type": "int"
+            },
+            "location": {
+              "type": "string",
+              "metadata": {
+                "description": "Location for all standard resources to be deployed into."
+              }
+            },
+            "hostPoolName": {
+              "type": "string"
+            },
+            "domainToJoin": {
+              "type": "string"
+            },
+            "resourceGroupName": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of resource group containing AVD HostPool"
+              }
+            },
+            "ouPath": {
+              "type": "string",
+              "metadata": {
+                "description": "OU Path were new AVD Session Hosts will be placed in Active Directory"
+              }
+            },
+            "appGroupName": {
+              "type": "string"
+            },
+            "desktopName": {
+              "type": "string"
+            },
+            "appID": {
+              "type": "string",
+              "metadata": {
+                "description": "Application ID for Service Principal. Used for DSC scripts."
+              }
+            },
+            "appSecret": {
+              "type": "string",
+              "metadata": {
+                "description": "Application Secret for Service Principal."
+              }
+            },
+            "defaultUsers": {
+              "type": "string",
+              "metadata": {
+                "description": "CSV list of default users to assign to AVD Application Group."
+              }
+            },
+            "vmPrefix": {
+              "type": "string"
+            },
+            "vmDiskType": {
+              "type": "string",
+              "allowedValues": [
+                "Standard_LRS",
+                "Premium_LRS"
+              ]
+            },
+            "vmSize": {
+              "type": "string"
+            },
+            "administratorAccountUserName": {
+              "type": "string"
+            },
+            "administratorAccountPassword": {
+              "type": "string"
+            },
+            "existingVNETResourceGroup": {
+              "type": "string"
+            },
+            "existingVNETName": {
+              "type": "string"
+            },
+            "existingSubnetName": {
+              "type": "string"
+            },
+            "sharedImageGallerySubscription": {
+              "type": "string",
+              "metadata": {
+                "description": "Subscription containing the Shared Image Gallery"
+              }
+            },
+            "sharedImageGalleryResourceGroup": {
+              "type": "string",
+              "metadata": {
+                "description": "Resource Group containing the Shared Image Gallery."
+              }
+            },
+            "sharedImageGalleryName": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of the existing Shared Image Gallery to be used for image."
+              }
+            },
+            "sharedImageGalleryDefinitionname": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of the Shared Image Gallery Definition being used for deployment. I.e: AVDGolden"
+              }
+            },
+            "sharedImageGalleryVersionName": {
+              "type": "string",
+              "metadata": {
+                "description": "Version name for image to be deployed as. I.e: 1.0.0"
+              }
+            },
+            "workspaceID": {
+              "type": "string",
+              "metadata": {
+                "description": "Log Analytics Workspace ID"
+              }
+            },
+            "workspaceKey": {
+              "type": "string",
+              "metadata": {
+                "description": "Log Analytics Workspace Key"
+              }
+            },
+            "tagParams": {
+              "type": "object"
+            },
+            "monitoringAgent": {
+              "type": "bool"
+            }
+          },
+          "variables": {
+            "subnetID": "[resourceId(parameters('existingVNETResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVNETName'), parameters('existingSubnetName'))]",
+            "avSetSKU": "Aligned",
+            "existingDomainUserName": "[first(split(parameters('administratorAccountUserName'), '@'))]",
+            "networkAdapterPostfix": "-nic"
+          },
+          "resources": [
+            {
+              "copy": {
+                "name": "nic",
+                "count": "[length(range(0, parameters('AVDnumberOfInstances')))]"
+              },
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2021-05-01",
+              "name": "[format('{0}-{1}{2}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')), variables('networkAdapterPostfix'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipconfig",
+                    "properties": {
+                      "privateIPAllocationMethod": "Dynamic",
+                      "subnet": {
+                        "id": "[variables('subnetID')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Microsoft.Compute/availabilitySets",
+              "apiVersion": "2021-11-01",
+              "name": "[format('{0}-AV', parameters('vmPrefix'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "platformFaultDomainCount": 2,
+                "platformUpdateDomainCount": 10
+              },
+              "sku": {
+                "name": "[variables('avSetSKU')]"
+              }
+            },
+            {
+              "copy": {
+                "name": "vm",
+                "count": "[length(range(0, parameters('AVDnumberOfInstances')))]"
+              },
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2021-11-01",
+              "name": "[format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "licenseType": "Windows_Client",
+                "hardwareProfile": {
+                  "vmSize": "[parameters('vmSize')]"
+                },
+                "availabilitySet": {
+                  "id": "[resourceId('Microsoft.Compute/availabilitySets', format('{0}-AV', parameters('vmPrefix')))]"
+                },
+                "osProfile": {
+                  "computerName": "[format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+                  "adminUsername": "[variables('existingDomainUserName')]",
+                  "adminPassword": "[parameters('administratorAccountPassword')]",
+                  "windowsConfiguration": {
+                    "enableAutomaticUpdates": false,
+                    "patchSettings": {
+                      "patchMode": "Manual"
+                    }
+                  }
+                },
+                "storageProfile": {
+                  "osDisk": {
+                    "name": "[format('{0}-{1}-OS', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+                    "managedDisk": {
+                      "storageAccountType": "[parameters('vmDiskType')]"
+                    },
+                    "osType": "Windows",
+                    "createOption": "FromImage"
+                  },
+                  "imageReference": {
+                    "id": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Compute/galleries/{2}/images/{3}/versions/{4}', parameters('sharedImageGallerySubscription'), parameters('sharedImageGalleryResourceGroup'), parameters('sharedImageGalleryName'), parameters('sharedImageGalleryDefinitionname'), parameters('sharedImageGalleryVersionName'))]"
+                  },
+                  "dataDisks": []
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-{1}{2}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')), variables('networkAdapterPostfix')))]"
+                    }
+                  ]
+                }
+              },
+              "tags": "[parameters('tagParams')]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', format('{0}-AV', parameters('vmPrefix')))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-{1}{2}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances')), variables('networkAdapterPostfix')))]"
+              ]
+            },
+            {
+              "copy": {
+                "name": "languagefix",
+                "count": "[length(range(0, parameters('AVDnumberOfInstances')))]"
+              },
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2021-11-01",
+              "name": "[format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "fileUris": [
+                    "[format('{0}languagescript.ps1', parameters('artifactsLocation'))]",
+                    "[format('{0}UKRegion.xml', parameters('artifactsLocation'))]"
+                  ]
+                },
+                "protectedSettings": {
+                  "commandToExecute": "powershell.exe -ExecutionPolicy Bypass -File languagescript.ps1"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"
+              ]
+            },
+            {
+              "copy": {
+                "name": "joindomain",
+                "count": "[length(range(0, parameters('AVDnumberOfInstances')))]"
+              },
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2021-11-01",
+              "name": "[format('{0}-{1}/joindomain', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "JsonADDomainExtension",
+                "typeHandlerVersion": "1.3",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "name": "[parameters('domainToJoin')]",
+                  "ouPath": "[parameters('ouPath')]",
+                  "user": "[parameters('administratorAccountUserName')]",
+                  "restart": "true",
+                  "options": "3",
+                  "NumberOfRetries": "4",
+                  "RetryIntervalInMilliseconds": "30000"
+                },
+                "protectedSettings": {
+                  "password": "[parameters('administratorAccountPassword')]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[0], split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[1])]",
+                "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"
+              ]
+            },
+            {
+              "copy": {
+                "name": "dscextension",
+                "count": "[length(range(0, parameters('AVDnumberOfInstances')))]"
+              },
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2021-11-01",
+              "name": "[format('{0}-{1}/dscextension', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.73",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "modulesUrl": "[format('{0}Configuration.zip', parameters('artifactsLocation'))]",
+                  "configurationFunction": "Configuration.ps1\\AddSessionHost",
+                  "properties": {
+                    "HostPoolName": "[parameters('hostPoolName')]",
+                    "ResourceGroup": "[parameters('resourceGroupName')]",
+                    "ApplicationGroupName": "[parameters('appGroupName')]",
+                    "DesktopName": "[parameters('desktopName')]",
+                    "AzTenantID": "[parameters('AzTenantID')]",
+                    "AppID": "[parameters('appID')]",
+                    "AppSecret": "[parameters('appSecret')]",
+                    "DefaultUsers": "[parameters('defaultUsers')]",
+                    "vmPrefix": "[parameters('vmPrefix')]"
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}-{1}/joindomain', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[0], split(format('{0}-{1}/joindomain', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[1])]",
+                "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"
+              ]
+            },
+            {
+              "condition": "[equals(parameters('monitoringAgent'), true())]",
+              "copy": {
+                "name": "loganalytics",
+                "count": "[length(range(0, parameters('AVDnumberOfInstances')))]"
+              },
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2021-11-01",
+              "name": "[format('{0}-{1}/loganalytics', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+                "type": "MicrosoftMonitoringAgent",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "workspaceID": "[parameters('workspaceID')]"
+                },
+                "protectedSettings": {
+                  "workspaceKey": "[parameters('workspaceKey')]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}-{1}/dscextension', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[0], split(format('{0}-{1}/dscextension', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[1])]",
+                "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('AVDResourceGroup')), 'Microsoft.Resources/deployments', 'backPlane')]"
+      ]
+    }
+  ]
+}
