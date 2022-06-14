@@ -1,7 +1,9 @@
 # AVD-BICEP
 
 **UPDATED 14/06/2022**
+
 New directory contains updated BICEP files. These new BICEP files remove any compile errors and optimize the Monitoring script slightly. 
+
 Using the BICEP scope keywork to create the MicrosoftInsights/DiagnosticSettings against an existing resource symbolic link.
 
 Also cleaned up so unused code.
