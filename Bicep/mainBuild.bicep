@@ -105,8 +105,6 @@ param logworkspaceResourceGroup string
 @description('Name of Log Analytics Workspace for AVD to be joined to.')
 param logworkspaceName string
 
-var subnetId = subscriptionResourceId('Microsoft.Network/virtualNetworks/subnets', existingVNETName, existingSubnetName)
-
 module resourceGroupDeploy 'resourceGroup.bicep' = {
   name: 'backPlane'
   params: {
