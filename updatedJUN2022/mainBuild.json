@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.7.4.23292",
-      "templateHash": "5071379285689402196"
+      "templateHash": "18007544923800399907"
     }
   },
   "parameters": {
@@ -840,7 +840,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.7.4.23292",
-              "templateHash": "15657669421454700818"
+              "templateHash": "17936194048731949824"
             }
           },
           "parameters": {
@@ -1063,6 +1063,7 @@
                     },
                     "osType": "Windows",
                     "createOption": "FromImage",
+                    "caching": "ReadOnly",
                     "diffDiskSettings": "[if(parameters('ephemeral'), createObject('option', 'Local', 'placement', 'ResourceDisk'), null())]"
                   },
                   "imageReference": {
