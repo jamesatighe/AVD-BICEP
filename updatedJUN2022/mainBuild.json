@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.4.1272.37030",
-      "templateHash": "3996725962255505082"
+      "version": "0.7.4.23292",
+      "templateHash": "5071379285689402196"
     }
   },
   "parameters": {
@@ -26,6 +26,13 @@
       "defaultValue": false,
       "metadata": {
         "description": "Boolean used to determine if Monitoring agent is needed"
+      }
+    },
+    "ephemeral": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Wheter to use emphemeral disks for VMs"
       }
     },
     "tokenExpirationTime": {
@@ -278,8 +285,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "9140292711885968432"
+              "version": "0.7.4.23292",
+              "templateHash": "7457391837180820713"
             }
           },
           "parameters": {
@@ -382,8 +389,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "17273201935336386704"
+              "version": "0.7.4.23292",
+              "templateHash": "5489118463981612838"
             }
           },
           "parameters": {
@@ -576,8 +583,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16718629399431634910"
+                      "version": "0.7.4.23292",
+                      "templateHash": "12988372942430806883"
                     }
                   },
                   "parameters": {
@@ -821,6 +828,9 @@
           },
           "monitoringAgent": {
             "value": "[parameters('monitoringAgent')]"
+          },
+          "ephemeral": {
+            "value": "[parameters('ephemeral')]"
           }
         },
         "template": {
@@ -829,8 +839,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "10732977223960671199"
+              "version": "0.7.4.23292",
+              "templateHash": "15657669421454700818"
             }
           },
           "parameters": {
@@ -969,6 +979,9 @@
             },
             "monitoringAgent": {
               "type": "bool"
+            },
+            "ephemeral": {
+              "type": "bool"
             }
           },
           "variables": {
@@ -1049,7 +1062,8 @@
                       "storageAccountType": "[parameters('vmDiskType')]"
                     },
                     "osType": "Windows",
-                    "createOption": "FromImage"
+                    "createOption": "FromImage",
+                    "diffDiskSettings": "[if(parameters('ephemeral'), createObject('option', 'Local', 'placement', 'ResourceDisk'), null())]"
                   },
                   "imageReference": {
                     "id": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Compute/galleries/{2}/images/{3}/versions/{4}', parameters('sharedImageGallerySubscription'), parameters('sharedImageGalleryResourceGroup'), parameters('sharedImageGalleryName'), parameters('sharedImageGalleryDefinitionname'), parameters('sharedImageGalleryVersionName'))]"

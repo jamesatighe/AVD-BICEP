@@ -7,6 +7,9 @@ param workspaceLocation string
 @description('Boolean used to determine if Monitoring agent is needed')
 param monitoringAgent bool = false
 
+@description('Wheter to use emphemeral disks for VMs')
+param ephemeral bool = true
+
 @description('Expiration time for the HostPool registration token. This must be up to 30 days from todays date.')
 param tokenExpirationTime string
 
@@ -189,6 +192,7 @@ module VMswithLA './modules/VMswithLA.bicep' = {
     workspaceKey: workspaceKey
     tagParams: tagParams
     monitoringAgent: monitoringAgent
+    ephemeral: ephemeral
   }
   dependsOn: [
     backPlane

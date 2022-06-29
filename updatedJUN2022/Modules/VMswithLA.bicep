@@ -64,6 +64,8 @@ param tagParams object
 
 param monitoringAgent bool
 
+param ephemeral bool
+
 var subnetID = resourceId(existingVNETResourceGroup, 'Microsoft.Network/virtualNetworks/subnets', existingVNETName, existingSubnetName)
 var avSetSKU = 'Aligned'
 var existingDomainUserName = first(split(administratorAccountUserName, '@'))
@@ -129,7 +131,12 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = [for i in range(0, 
         }
         osType: 'Windows'
         createOption: 'FromImage'
+        diffDiskSettings: ephemeral ? {
+          option: 'Local'
+          placement: 'ResourceDisk'
+        } : null
       }
+
       imageReference: {
         //id: resourceId(sharedImageGalleryResourceGroup, 'Microsoft.Compute/galleries/images/versions', sharedImageGalleryName, sharedImageGalleryDefinitionname, sharedImageGalleryVersionName)
         id: '/subscriptions/${sharedImageGallerySubscription}/resourceGroups/${sharedImageGalleryResourceGroup}/providers/Microsoft.Compute/galleries/${sharedImageGalleryName}/images/${sharedImageGalleryDefinitionname}/versions/${sharedImageGalleryVersionName}'
