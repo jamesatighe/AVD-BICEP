@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.7.4.23292",
-      "templateHash": "18007544923800399907"
+      "templateHash": "6821879545207156524"
     }
   },
   "parameters": {
@@ -840,7 +840,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.7.4.23292",
-              "templateHash": "17936194048731949824"
+              "templateHash": "7382325031182425139"
             }
           },
           "parameters": {
@@ -1064,7 +1064,7 @@
                     "osType": "Windows",
                     "createOption": "FromImage",
                     "caching": "ReadOnly",
-                    "diffDiskSettings": "[if(parameters('ephemeral'), createObject('option', 'Local', 'placement', 'ResourceDisk'), null())]"
+                    "diffDiskSettings": "[if(parameters('ephemeral'), createObject('option', 'Local', 'placement', 'CacheDisk'), null())]"
                   },
                   "imageReference": {
                     "id": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Compute/galleries/{2}/images/{3}/versions/{4}', parameters('sharedImageGallerySubscription'), parameters('sharedImageGalleryResourceGroup'), parameters('sharedImageGalleryName'), parameters('sharedImageGalleryDefinitionname'), parameters('sharedImageGalleryVersionName'))]"
