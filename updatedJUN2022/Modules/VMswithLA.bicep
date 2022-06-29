@@ -131,6 +131,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = [for i in range(0, 
         }
         osType: 'Windows'
         createOption: 'FromImage'
+        caching: 'ReadOnly'
         diffDiskSettings: ephemeral ? {
           option: 'Local'
           placement: 'ResourceDisk'
