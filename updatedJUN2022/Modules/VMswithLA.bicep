@@ -190,7 +190,7 @@ resource joindomain 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' = 
   properties: AADJoin ? {
     publisher: 'Microsoft.Azure.ActiveDirectory'
     type: 'AADLoginForWindows'
-    typeHandlerVersion: '0.4'
+    typeHandlerVersion: '1.0'
     autoUpgradeMinorVersion: true
   } : {
     publisher: 'Microsoft.Compute'
