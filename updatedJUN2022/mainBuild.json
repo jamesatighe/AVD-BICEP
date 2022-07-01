@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.7.4.23292",
-      "templateHash": "13348738213424186227"
+      "templateHash": "12671721702622887262"
     }
   },
   "parameters": {
@@ -850,7 +850,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.7.4.23292",
-              "templateHash": "16363410530537157342"
+              "templateHash": "17749740042700823543"
             }
           },
           "parameters": {
@@ -1135,7 +1135,7 @@
               "apiVersion": "2021-11-01",
               "name": "[format('{0}-{1}/joindomain', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
               "location": "[parameters('location')]",
-              "properties": "[if(parameters('AADJoin'), createObject('publisher', 'Microsoft.Azure.ActiveDirectory', 'type', 'AADLoginForWindows', 'typeHandlerVersion', '0.4', 'autoUpgradeMinorVersion', true()), createObject('publisher', 'Microsoft.Compute', 'type', 'JsonADDomainExtension', 'typeHandlerVersion', '1.3', 'autoUpgradeMinorVersion', true(), 'settings', createObject('name', parameters('domainToJoin'), 'ouPath', parameters('ouPath'), 'user', parameters('administratorAccountUserName'), 'restart', 'true', 'options', '3', 'NumberOfRetries', '4', 'RetryIntervalInMilliseconds', '30000'), 'protectedSettings', createObject('password', parameters('administratorAccountPassword'))))]",
+              "properties": "[if(parameters('AADJoin'), createObject('publisher', 'Microsoft.Azure.ActiveDirectory', 'type', 'AADLoginForWindows', 'typeHandlerVersion', '1.0', 'autoUpgradeMinorVersion', true()), createObject('publisher', 'Microsoft.Compute', 'type', 'JsonADDomainExtension', 'typeHandlerVersion', '1.3', 'autoUpgradeMinorVersion', true(), 'settings', createObject('name', parameters('domainToJoin'), 'ouPath', parameters('ouPath'), 'user', parameters('administratorAccountUserName'), 'restart', 'true', 'options', '3', 'NumberOfRetries', '4', 'RetryIntervalInMilliseconds', '30000'), 'protectedSettings', createObject('password', parameters('administratorAccountPassword'))))]",
               "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[0], split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[1])]",
                 "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"
