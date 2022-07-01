@@ -66,6 +66,8 @@ param monitoringAgent bool
 
 param ephemeral bool
 
+param AADJoin bool
+
 var subnetID = resourceId(existingVNETResourceGroup, 'Microsoft.Network/virtualNetworks/subnets', existingVNETName, existingSubnetName)
 var avSetSKU = 'Aligned'
 var existingDomainUserName = first(split(administratorAccountUserName, '@'))
@@ -127,7 +129,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = [for i in range(0, 
       osDisk: {
         name: '${vmPrefix}-${i + currentInstances}-OS'
         managedDisk: {
-          storageAccountType: vmDiskType
+          storageAccountType: ephemeral ? 'Standard_LRS' : vmDiskType
         }
         osType: 'Windows'
         createOption: 'FromImage'
@@ -185,7 +187,12 @@ resource languagefix 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' =
 resource joindomain 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' = [for i in range(0, AVDnumberOfInstances): {
   name: '${vmPrefix}-${i + currentInstances}/joindomain'
   location: location
-  properties: {
+  properties: AADJoin ? {
+    publisher: 'Microsoft.Azure.ActiveDirectory'
+    type: 'AADLoginForWindows'
+    typeHandlerVersion: '0.4'
+    autoUpgradeMinorVersion: true
+  } : {
     publisher: 'Microsoft.Compute'
     type: 'JsonADDomainExtension'
     typeHandlerVersion: '1.3'

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.7.4.23292",
-      "templateHash": "6821879545207156524"
+      "templateHash": "13348738213424186227"
     }
   },
   "parameters": {
@@ -33,6 +33,13 @@
       "defaultValue": true,
       "metadata": {
         "description": "Wheter to use emphemeral disks for VMs"
+      }
+    },
+    "AADJoin": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Declares whether Azure AD joined or not"
       }
     },
     "tokenExpirationTime": {
@@ -831,6 +838,9 @@
           },
           "ephemeral": {
             "value": "[parameters('ephemeral')]"
+          },
+          "AADJoin": {
+            "value": "[parameters('AADJoin')]"
           }
         },
         "template": {
@@ -840,7 +850,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.7.4.23292",
-              "templateHash": "7382325031182425139"
+              "templateHash": "16363410530537157342"
             }
           },
           "parameters": {
@@ -982,6 +992,9 @@
             },
             "ephemeral": {
               "type": "bool"
+            },
+            "AADJoin": {
+              "type": "bool"
             }
           },
           "variables": {
@@ -1059,7 +1072,7 @@
                   "osDisk": {
                     "name": "[format('{0}-{1}-OS', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
                     "managedDisk": {
-                      "storageAccountType": "[parameters('vmDiskType')]"
+                      "storageAccountType": "[if(parameters('ephemeral'), 'Standard_LRS', parameters('vmDiskType'))]"
                     },
                     "osType": "Windows",
                     "createOption": "FromImage",
@@ -1122,24 +1135,7 @@
               "apiVersion": "2021-11-01",
               "name": "[format('{0}-{1}/joindomain', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
               "location": "[parameters('location')]",
-              "properties": {
-                "publisher": "Microsoft.Compute",
-                "type": "JsonADDomainExtension",
-                "typeHandlerVersion": "1.3",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                  "name": "[parameters('domainToJoin')]",
-                  "ouPath": "[parameters('ouPath')]",
-                  "user": "[parameters('administratorAccountUserName')]",
-                  "restart": "true",
-                  "options": "3",
-                  "NumberOfRetries": "4",
-                  "RetryIntervalInMilliseconds": "30000"
-                },
-                "protectedSettings": {
-                  "password": "[parameters('administratorAccountPassword')]"
-                }
-              },
+              "properties": "[if(parameters('AADJoin'), createObject('publisher', 'Microsoft.Azure.ActiveDirectory', 'type', 'AADLoginForWindows', 'typeHandlerVersion', '0.4', 'autoUpgradeMinorVersion', true()), createObject('publisher', 'Microsoft.Compute', 'type', 'JsonADDomainExtension', 'typeHandlerVersion', '1.3', 'autoUpgradeMinorVersion', true(), 'settings', createObject('name', parameters('domainToJoin'), 'ouPath', parameters('ouPath'), 'user', parameters('administratorAccountUserName'), 'restart', 'true', 'options', '3', 'NumberOfRetries', '4', 'RetryIntervalInMilliseconds', '30000'), 'protectedSettings', createObject('password', parameters('administratorAccountPassword'))))]",
               "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[0], split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[1])]",
                 "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"

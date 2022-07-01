@@ -10,6 +10,9 @@ param monitoringAgent bool = false
 @description('Wheter to use emphemeral disks for VMs')
 param ephemeral bool = true
 
+@description('Declares whether Azure AD joined or not')
+param AADJoin bool = false
+
 @description('Expiration time for the HostPool registration token. This must be up to 30 days from todays date.')
 param tokenExpirationTime string
 
@@ -193,6 +196,7 @@ module VMswithLA './modules/VMswithLA.bicep' = {
     tagParams: tagParams
     monitoringAgent: monitoringAgent
     ephemeral: ephemeral
+    AADJoin: AADJoin
   }
   dependsOn: [
     backPlane
