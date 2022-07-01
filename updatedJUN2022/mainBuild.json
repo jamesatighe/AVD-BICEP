@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.7.4.23292",
-      "templateHash": "12671721702622887262"
+      "templateHash": "13265346056025165578"
     }
   },
   "parameters": {
@@ -850,7 +850,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.7.4.23292",
-              "templateHash": "17749740042700823543"
+              "templateHash": "5933876456423514825"
             }
           },
           "parameters": {
@@ -1049,6 +1049,7 @@
               "apiVersion": "2021-11-01",
               "name": "[format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
               "location": "[parameters('location')]",
+              "identity": "[if(parameters('AADJoin'), createObject('type', 'SystemAssigned'), null())]",
               "properties": {
                 "licenseType": "Windows_Client",
                 "hardwareProfile": {

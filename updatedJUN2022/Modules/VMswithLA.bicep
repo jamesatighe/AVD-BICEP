@@ -106,6 +106,9 @@ resource availabilitySet 'Microsoft.Compute/availabilitySets@2021-11-01' = {
 resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = [for i in range(0, AVDnumberOfInstances): {
   name: '${vmPrefix}-${i + currentInstances}'
   location: location
+  identity: AADJoin ? {
+    type: 'SystemAssigned'
+  } : null
   properties: {
     licenseType: 'Windows_Client'
     hardwareProfile: {
