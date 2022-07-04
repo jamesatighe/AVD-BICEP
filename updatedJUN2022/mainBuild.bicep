@@ -13,6 +13,9 @@ param ephemeral bool = true
 @description('Declares whether Azure AD joined or not')
 param AADJoin bool = false
 
+@description('Determines if Session Hosts are auto enrolled in Intune')
+param intune bool = false
+
 @description('Expiration time for the HostPool registration token. This must be up to 30 days from todays date.')
 param tokenExpirationTime string
 
@@ -197,6 +200,7 @@ module VMswithLA './modules/VMswithLA.bicep' = {
     monitoringAgent: monitoringAgent
     ephemeral: ephemeral
     AADJoin: AADJoin
+    intune: intune
   }
   dependsOn: [
     backPlane

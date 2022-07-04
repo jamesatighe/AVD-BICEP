@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.7.4.23292",
-      "templateHash": "13265346056025165578"
+      "templateHash": "3949799576599769278"
     }
   },
   "parameters": {
@@ -40,6 +40,13 @@
       "defaultValue": false,
       "metadata": {
         "description": "Declares whether Azure AD joined or not"
+      }
+    },
+    "intune": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Determines if Session Hosts are auto enrolled in Intune"
       }
     },
     "tokenExpirationTime": {
@@ -841,6 +848,9 @@
           },
           "AADJoin": {
             "value": "[parameters('AADJoin')]"
+          },
+          "intune": {
+            "value": "[parameters('intune')]"
           }
         },
         "template": {
@@ -850,7 +860,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.7.4.23292",
-              "templateHash": "5933876456423514825"
+              "templateHash": "3980533901290252168"
             }
           },
           "parameters": {
@@ -995,6 +1005,9 @@
             },
             "AADJoin": {
               "type": "bool"
+            },
+            "intune": {
+              "type": "bool"
             }
           },
           "variables": {
@@ -1136,7 +1149,7 @@
               "apiVersion": "2021-11-01",
               "name": "[format('{0}-{1}/joindomain', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[copyIndex()], parameters('currentInstances')))]",
               "location": "[parameters('location')]",
-              "properties": "[if(parameters('AADJoin'), createObject('publisher', 'Microsoft.Azure.ActiveDirectory', 'type', 'AADLoginForWindows', 'typeHandlerVersion', '1.0', 'autoUpgradeMinorVersion', true()), createObject('publisher', 'Microsoft.Compute', 'type', 'JsonADDomainExtension', 'typeHandlerVersion', '1.3', 'autoUpgradeMinorVersion', true(), 'settings', createObject('name', parameters('domainToJoin'), 'ouPath', parameters('ouPath'), 'user', parameters('administratorAccountUserName'), 'restart', 'true', 'options', '3', 'NumberOfRetries', '4', 'RetryIntervalInMilliseconds', '30000'), 'protectedSettings', createObject('password', parameters('administratorAccountPassword'))))]",
+              "properties": "[if(parameters('AADJoin'), createObject('publisher', 'Microsoft.Azure.ActiveDirectory', 'type', 'AADLoginForWindows', 'typeHandlerVersion', '1.0', 'autoUpgradeMinorVersion', true(), 'settings', if(parameters('intune'), createObject('mdmId', '0000000a-0000-0000-c000-000000000000'), null())), createObject('publisher', 'Microsoft.Compute', 'type', 'JsonADDomainExtension', 'typeHandlerVersion', '1.3', 'autoUpgradeMinorVersion', true(), 'settings', createObject('name', parameters('domainToJoin'), 'ouPath', parameters('ouPath'), 'user', parameters('administratorAccountUserName'), 'restart', 'true', 'options', '3', 'NumberOfRetries', '4', 'RetryIntervalInMilliseconds', '30000'), 'protectedSettings', createObject('password', parameters('administratorAccountPassword'))))]",
               "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[0], split(format('{0}-{1}/languagefix', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))), '/')[1])]",
                 "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-{1}', parameters('vmPrefix'), add(range(0, parameters('AVDnumberOfInstances'))[range(0, parameters('AVDnumberOfInstances'))[copyIndex()]], parameters('currentInstances'))))]"

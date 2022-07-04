@@ -68,6 +68,8 @@ param ephemeral bool
 
 param AADJoin bool
 
+param intune bool
+
 var subnetID = resourceId(existingVNETResourceGroup, 'Microsoft.Network/virtualNetworks/subnets', existingVNETName, existingSubnetName)
 var avSetSKU = 'Aligned'
 var existingDomainUserName = first(split(administratorAccountUserName, '@'))
@@ -195,6 +197,9 @@ resource joindomain 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' = 
     type: 'AADLoginForWindows'
     typeHandlerVersion: '1.0'
     autoUpgradeMinorVersion: true
+    settings: intune ? {
+      mdmId: '0000000a-0000-0000-c000-000000000000'
+    } : null
   } : {
     publisher: 'Microsoft.Compute'
     type: 'JsonADDomainExtension'
