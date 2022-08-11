@@ -41,4 +41,4 @@ https://tighetec.co.uk/2021/07/07/deploy-azure-virtual-desktop-with-project-bice
 
 for full information on how this was created.
 
-The **AVD-Dev-Variables.xlsx** file with full listing of the Static and Selectable Variables used for deployment. This is due to change dependant on deployment.
+The **AVD-Dev-Variables.xlsx** file with full listing of the Static and Selectable Variables used for deployment. This is due to change dependant on deployment. This still needs amending.
