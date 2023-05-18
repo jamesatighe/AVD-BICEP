@@ -44,6 +44,6 @@ jobs:
           scope: 'subscription'
           region: northeurope
           template: ./GitHubActions/mainBuild.bicep
-          parameters: "./updatedJUN2022/mainParameters.JSON -HostPoolName 'InlineTest'"
+          parameters: "./updatedJUN2022/mainParameters.JSON 'HostPoolName=InlineTest'"
       
 
