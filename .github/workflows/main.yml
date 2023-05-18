@@ -19,7 +19,7 @@ jobs:
         id: preBuildScript
         shell: pwsh
         run: |
-          ./PreBuild.ps1 -SharedImageGalleryResourceGroup "${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }}" `
+          ./GitHubActions/PreBuild.ps1 -SharedImageGalleryResourceGroup "${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }}" `
           -SharedImageGalleryName "${{ vars.SHAREDIMAGEGALLERYNAME }}" `
           -SharedImageGalleryDefinitionName "${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }}" `
           -vmNamePrefix "${{ vars.VMNAMEPREFIX }}" `
@@ -28,10 +28,6 @@ jobs:
           -update "${{ vars.UPDATE }}" `
           -SharedImageGalleryVersionName "${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }}" `
           -newBuild "${{ vars.NEWBUILD }}"
-      - name: Test Output
-        shell: pwsh
-        run: |
-          Write-Host "Token is: ${{ steps.preBuildScript.outputs.TOKEN}}"
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -44,4 +40,4 @@ jobs:
           scope: 'subscription'
           region: northeurope
           template: ./GitHubActions/mainBuild.bicep
-          parameters: "./updatedJUN2022/mainParameters.JSON hostPoolName=GitHubActions AVDResourceGroup=${{ vars.RESOURCEGROUP }} tokenExpirationTime=${{ steps.preBuildScript.outputs.TOKEN }} newBuild=${{ vars.NEWBUILD }} sharedImageGallerySubscription=${{ secrets.AZURE_GALLERY_SUBSCRIPTION }} sharedImageGalleryResourceGroup=${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }} sharedImageGalleryName=${{ vars.SHAREDIMAGEGALLERYNAME }} sharedImageGalleryDefinitionname=${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }} sharedImageGalleryVersionName=${{ steps.preBuildScript.outputs.LATESTVERSION }} AADJoin=false intune=false ephemeral=${{ vars.EPHEMERAL }} vmResourceGroup=${{ vars.VMRESOURCEGROUP }} vmSize=${{ vars.VMSIZE }} vmLocation=${{ vars.VMLOCATION }} vmDiskType=${{ vars.VMDISKTYPE }} vmPrefix=${{ steps.preBuildScript.outputs.PREFIX }} numberOfInstances=${{ vars.NUMBEROFINSTANCES }} currentInstances=${{ steps.preBuildScript.outputs.CURRENTNOHOSTS }} AzTenantID=${{ secrets.AZURE_TENANTID }} appID=${{ secrets.APPID }} appSecret=${{ secrets.APPSECRET }} defaultUsers=${{ vars.DEFAULTUSERS }} logworkspaceSub=${{ secrets.LOGWORKSPACESUB }} logworkspaceResourceGroup=${{ vars.LOGWORKSPACERESOURCEGROUP }} logworkspaceName=${{ vars.LOGWORKSPACENAME }} workspaceKey=${{ secrets.WORKSPACEKEY }} workspaceID=${{ secrets.WORKSPACEID }} domain=${{ secrets.DOMAIN }}"
+          parameters: "./GitHubActions/mainParameters.JSON AVDResourceGroup=${{ vars.RESOURCEGROUP }} tokenExpirationTime=${{ steps.preBuildScript.outputs.TOKEN }} newBuild=${{ vars.NEWBUILD }} sharedImageGallerySubscription=${{ secrets.AZURE_GALLERY_SUBSCRIPTION }} sharedImageGalleryResourceGroup=${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }} sharedImageGalleryName=${{ vars.SHAREDIMAGEGALLERYNAME }} sharedImageGalleryDefinitionname=${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }} sharedImageGalleryVersionName=${{ steps.preBuildScript.outputs.LATESTVERSION }} AADJoin=false intune=false ephemeral=${{ vars.EPHEMERAL }} vmResourceGroup=${{ vars.VMRESOURCEGROUP }} vmSize=${{ vars.VMSIZE }} vmLocation=${{ vars.VMLOCATION }} vmDiskType=${{ vars.VMDISKTYPE }} vmPrefix=${{ steps.preBuildScript.outputs.PREFIX }} numberOfInstances=${{ vars.NUMBEROFINSTANCES }} currentInstances=${{ steps.preBuildScript.outputs.CURRENTNOHOSTS }} AzTenantID=${{ secrets.AZURE_TENANTID }} appID=${{ secrets.APPID }} appSecret=${{ secrets.APPSECRET }} defaultUsers=${{ vars.DEFAULTUSERS }} logworkspaceSub=${{ secrets.LOGWORKSPACESUB }} logworkspaceResourceGroup=${{ vars.LOGWORKSPACERESOURCEGROUP }} logworkspaceName=${{ vars.LOGWORKSPACENAME }} workspaceKey=${{ secrets.WORKSPACEKEY }} workspaceID=${{ secrets.WORKSPACEID }} domain=${{ secrets.DOMAIN }}"
