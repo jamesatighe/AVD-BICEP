@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Pre-build-PowerShell:
+    name: AVD Deployment
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Pre-build Script
+        id: preBuildScript
+        shell: pwsh
+        run: |
+          ./PreBuild.ps1 -SharedImageGalleryResourceGroup ${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }} -SharedImageGalleryName ${{ vars.SHAREDIMAGEGALLERYNAME }} -SharedImageGalleryDefinitionName ${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }} -vmNamePrefix ${{ vars.VMNAMEPREFIX }} -resourceGroup ${{ vars.RESOURCEGROUP }} -hostPoolName ${{ vars.HOSTPOOLNAME }} -update ${{ vars.UPDATE }} -SharedImageGalleryVersionName ${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }} -newBuild ${{ vars.NEWBUILD }}
+      - name: Test Output
+        shell: pwsh
+        run: |
+          Write-Host "Token is: ${{ steps.preBuildScript.outputs.token}}"
+
