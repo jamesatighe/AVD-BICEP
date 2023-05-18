@@ -61,4 +61,4 @@ Write-Host "##vso[task.setvariable variable=version;isOutput=true;]$latestversio
 Write-Host "##vso[task.setvariable variable=currentNoHosts;isOutput=true;]$currentNoHosts"
 
 #GitHubActions Outputs
-echo ::set-output name=token::$( $token)
+echo "token=$token" >> "$GITHUB_OUTPUT"
