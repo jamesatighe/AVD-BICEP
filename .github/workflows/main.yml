@@ -4,11 +4,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  Pre-build-PowerShell:
+  AVD Deployment:
     name: AVD Deployment
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install from PSGallery
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module Az.Compute
       - name: Pre-build Script
         id: preBuildScript
         shell: pwsh
