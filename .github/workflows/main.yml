@@ -32,4 +32,17 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Token is: ${{ steps.preBuildScript.outputs.TOKEN}}"
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Deploy
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          scope: 'subscription'
+          template: ./GitHubActions/mainBuild.bicep
+          parameters: "./updatedJUN2022/mainParameters.JSON -HostPoolName 'InlineTest'"
+      
 
