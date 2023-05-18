@@ -96,13 +96,13 @@
             "value": "Premium_LRS"
         },
         "existingVNETResourceGroup": {
-            "value": "RG-PROD-NETWORKING"
+            "value": "VOH-INFRASTRUCTURE"
         },
         "existingVNETName": {
-            "value": "TIGHETEC-CORE-VNET"
+            "value": "VNET-NE"
         },
         "existingSubnetName": {
-            "value": "Core"
+            "value": "Backnet"
         },
         "sharedImageGallerySubscription": {
             "value": ""
