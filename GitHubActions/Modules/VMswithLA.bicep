@@ -60,8 +60,6 @@ param workspaceID string
 @description('Log Analytics Workspace Key')
 param workspaceKey string
 
-param tagParams object
-
 param monitoringAgent bool
 
 param ephemeral bool
@@ -159,7 +157,6 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = [for i in range(0, 
       ]
     }
   }
-  tags: tagParams
   dependsOn: [
     availabilitySet
     nic[i]
