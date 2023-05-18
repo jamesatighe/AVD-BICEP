@@ -14,23 +14,27 @@ jobs:
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module Az.Compute
-      - name: Pre-build Script
-        id: preBuildScript
-        shell: pwsh
-        run: |
-          ./GitHubActions/PreBuild.ps1 -SharedImageGalleryResourceGroup "${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }}" `
-          -SharedImageGalleryName "${{ vars.SHAREDIMAGEGALLERYNAME }}" `
-          -SharedImageGalleryDefinitionName "${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }}" `
-          -vmNamePrefix "${{ vars.VMNAMEPREFIX }}" `
-          -resourceGroup "${{ vars.RESOURCEGROUP }}" `
-          -hostPoolName "${{ vars.HOSTPOOLNAME }}" `
-          -update "${{ vars.UPDATE }}" `
-          -SharedImageGalleryVersionName "${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }}" `
-          -newBuild "${{ vars.NEWBUILD }}"
+          
       - name: Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Pre-build Script
+        uses: azure/powershell@v1
+        id: preBuildScript
+        with:
+          inlineScript: |
+            ./GitHubActions/PreBuild.ps1 -SharedImageGalleryResourceGroup "${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }}" `
+            -SharedImageGalleryName "${{ vars.SHAREDIMAGEGALLERYNAME }}" `
+            -SharedImageGalleryDefinitionName "${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }}" `
+            -vmNamePrefix "${{ vars.VMNAMEPREFIX }}" `
+            -resourceGroup "${{ vars.RESOURCEGROUP }}" `
+            -hostPoolName "${{ vars.HOSTPOOLNAME }}" `
+            -update "${{ vars.UPDATE }}" `
+            -SharedImageGalleryVersionName "${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }}" `
+            -newBuild "${{ vars.NEWBUILD }}"
+
           
       - name: Deploy
         uses: azure/arm-deploy@v1
