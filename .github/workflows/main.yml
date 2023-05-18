@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  AVD Deployment:
+  AVDDeployment:
     name: AVD Deployment
     runs-on: windows-latest
     steps:
