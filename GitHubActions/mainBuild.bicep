@@ -124,8 +124,6 @@ param workspaceID string
 @description('Log Analytics Workspace Key')
 param workspaceKey string
 
-param tagParams object
-
 module resourceGroupDeploy './modules/resourceGroup.bicep' = {
   name: 'backPlane'
   params: {
@@ -196,7 +194,6 @@ module VMswithLA './modules/VMswithLA.bicep' = {
     resourceGroupName: AVDResourceGroup
     workspaceID: workspaceID
     workspaceKey: workspaceKey
-    tagParams: tagParams
     monitoringAgent: monitoringAgent
     ephemeral: ephemeral
     AADJoin: AADJoin
