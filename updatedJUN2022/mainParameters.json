@@ -51,19 +51,19 @@
             "value": "audiocapturemode:i:1;audiomode:i:0;camerastoredirect:s:*;devicestoredirect:s:*;drivestoredirect:s:;redirectclipboard:i:1;redirectcomports:i:0;redirectprinters:i:1;redirectsmartcards:i:1;screen mode id:i:2" 
         },
         "hostPoolFriendlyName": {
-            "value": ""
+            "value": "GitHub Test Host Pool"
         },
         "workspaceName": {
-            "value": ""
+            "value": "GitHub Workspace"
         },
         "appGroupFriendlyName": {
-            "value": ""
+            "value": "GitHub Test Desktops"
         },
         "applicationGroupReferences": {
             "value": ""
         },
         "desktopName": {
-            "value": ""
+            "value": "GitHub Desktop"
         },
         "defaultUsers": {
             "value": "" 
