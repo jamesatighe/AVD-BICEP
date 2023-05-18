@@ -1,0 +1,132 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "AzTenantID": {
+            "value": ""
+        },
+        "artifactsLocation": {
+            "value": "https://abriwvddev.blob.core.windows.net/templates/" 
+        },
+        "AVDResourceGroup": {
+            "value": "rg-ne-avd" 
+        },
+        "workspaceLocation": {
+            "value": "northeurope" 
+        },
+        "tokenExpirationTime": {
+            "value": "2023-05-19T00:00:01Z"
+        },
+        "ouPath": {
+            "value": "OU=AVD,OU=Servers,DC=domain,DC=co,DC=uk"
+        },
+        "domain": {
+            "value": "domain.co.uk"
+        },
+        "newBuild": {
+            "value": true
+        },
+        "administratorAccountUserName": {
+            "value": ""
+        },
+        "administratorAccountPassword": {
+            "value": ""
+        },
+        "hostPoolType": {
+            "value": "Pooled"
+        },
+        "hostPoolName": {
+            "value": "GitHub Test"
+        },
+        "personalDesktopAssignmentType": {
+            "value": "Direct"
+        },
+        "maxSessionLimit": {
+            "value": 10
+        },
+        "loadBalancerType": {
+            "value": "BreadthFirst"
+        },
+        "customRdpProperty": {
+            "value": "audiocapturemode:i:1;audiomode:i:0;camerastoredirect:s:*;devicestoredirect:s:*;drivestoredirect:s:;redirectclipboard:i:1;redirectcomports:i:0;redirectprinters:i:1;redirectsmartcards:i:1;screen mode id:i:2" 
+        },
+        "hostPoolFriendlyName": {
+            "value": "GitHub Test Host Pool"
+        },
+        "workspaceName": {
+            "value": "GitHub Workspace"
+        },
+        "appGroupFriendlyName": {
+            "value": "GitHub Test Desktops"
+        },
+        "applicationGroupReferences": {
+            "value": ""
+        },
+        "desktopName": {
+            "value": "GitHub Desktop"
+        },
+        "defaultUsers": {
+            "value": "" 
+        },
+        "appID": {
+            "value": "" 
+        },
+        "appSecret": {
+            "value": ""
+        },
+        "vmResourceGroup": {
+            "value": "rg-ne-avd-vms"
+        },
+        "vmLocation": {
+            "value": "northeurope"
+        },
+        "vmSize": {
+            "value": "Standard_D2_v3"
+        },
+        "numberOfInstances": {
+            "value": 2
+        },
+        "currentInstances": {
+            "value": 0
+        },
+        "vmPrefix": {
+            "value": "AVD-PROD"
+        },
+        "vmDiskType": {
+            "value": "Premium_LRS"
+        },
+        "existingVNETResourceGroup": {
+            "value": "VOH-INFRASTRUCTURE"
+        },
+        "existingVNETName": {
+            "value": "VNET-NE"
+        },
+        "existingSubnetName": {
+            "value": "Backnet"
+        },
+        "sharedImageGallerySubscription": {
+            "value": ""
+        },
+        "sharedImageGalleryResourceGroup": {
+            "value": ""
+        },
+        "sharedImageGalleryName": {
+            "value": ""
+        },
+        "sharedImageGalleryDefinitionname": {
+            "value": ""
+        },
+        "sharedImageGalleryVersionName": {
+            "value": ""
+        },
+        "logworkspaceSub": {
+            "value": ""
+        },
+        "logworkspaceResourceGroup": {
+            "value": ""
+        },
+        "logworkspaceName": {
+            "value" : ""
+        }
+    }
+}
