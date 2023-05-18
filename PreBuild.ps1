@@ -62,3 +62,7 @@ Write-Host "##vso[task.setvariable variable=currentNoHosts;isOutput=true;]$curre
 
 #GitHubActions Outputs
 echo "TOKEN=$token" >> "$env:GITHUB_OUTPUT"
+echo "CURRENTNOHOSTS=$currentNoHosts" >> "$env:GITHUB_OUTPUT"
+echo "TAGS=$json" >> "$env:GITHUB_OUTPUT"
+echo "LATESTVERSION=$latestversion" >> "$env:GITHUB_OUTPUT"
+
