@@ -9,7 +9,7 @@
             "value": "https://abriwvddev.blob.core.windows.net/templates/" 
         },
         "AVDResourceGroup": {
-            "value": "rg-ne-avd-vms" 
+            "value": "rg-ne-avd" 
         },
         "workspaceLocation": {
             "value": "northeurope" 
