@@ -19,6 +19,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
           
       - name: Pre-build Script
         uses: azure/powershell@v1
