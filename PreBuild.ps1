@@ -65,5 +65,5 @@ echo "TOKEN=$token" >> "$env:GITHUB_OUTPUT"
 echo "CURRENTNOHOSTS=$currentNoHosts" >> "$env:GITHUB_OUTPUT"
 echo "TAGS=$json" >> "$env:GITHUB_OUTPUT"
 echo "LATESTVERSION=$latestversion" >> "$env:GITHUB_OUTPUT"
-echo "PREFIX=$prefix" >> $env:GITHUB_OUTPUT"
+echo "PREFIX=$prefix" >> "$env:GITHUB_OUTPUT"
 
