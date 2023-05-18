@@ -1,0 +1,132 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "AzTenantID": {
+            "value": "<SET AS NEEDED>"
+        },
+        "artifactsLocation": {
+            "value": "<This is were the DSC and other files exist. This must stay as the DSC is what joins to the Host Pool https://abriwvddev.blob.core.windows.net/templates/>" 
+        },
+        "AVDResourceGroup": {
+            "value": "rg-prod-avd" 
+        },
+        "workspaceLocation": {
+            "value": "westeurope" 
+        },
+        "tokenExpirationTime": {
+            "value": "<This must be set to a expiry time long enough to allow the session hosts to build E.G: 2023-05-19T00:00:01Z>"
+        },
+        "ouPath": {
+            "value": "<SET AS NEEEDED E.G OU=AVD,OU=Servers,DC=domain,DC=co,DC=uk>"
+        },
+        "domain": {
+            "value": "<SET AS NEEDED E.G domain.co.uk"
+        },
+        "newBuild": {
+            "value": true
+        },
+        "administratorAccountUserName": {
+            "value": "<SET AS NEEDED E.G admin@domain.co.uk>"
+        },
+        "administratorAccountPassword": {
+            "value": "<SET AS NEEDED>"
+        },
+        "hostPoolType": {
+            "value": "Pooled"
+        },
+        "hostPoolName": {
+            "value": "<SET AS NEEDED>"
+        },
+        "personalDesktopAssignmentType": {
+            "value": "Direct"
+        },
+        "maxSessionLimit": {
+            "value": 10
+        },
+        "loadBalancerType": {
+            "value": "BreadthFirst"
+        },
+        "customRdpProperty": {
+            "value": "audiocapturemode:i:1;audiomode:i:0;camerastoredirect:s:*;devicestoredirect:s:*;drivestoredirect:s:;redirectclipboard:i:1;redirectcomports:i:0;redirectprinters:i:1;redirectsmartcards:i:1;screen mode id:i:2" 
+        },
+        "hostPoolFriendlyName": {
+            "value": "<SET AS NEEDED E.G Customer AVD"
+        },
+        "workspaceName": {
+            "value": "<SET AS NEEDED>"
+        },
+        "appGroupFriendlyName": {
+            "value": "SET AS NEEDED E.G AVD Production"
+        },
+        "applicationGroupReferences": {
+            "value": ""
+        },
+        "desktopName": {
+            "value": "<SET AS NEEDED E.G Company Desktop"
+        },
+        "defaultUsers": {
+            "value": "<Comma separated list of user to add, can also use Azure AD group ID E.G: user@domain.co.uk,e69f912e-545e-466f-bb91-fe6682065977" 
+        },
+        "appID": {
+            "value": "<APP ID used to perform certain tasks to create users etc. Set to same as deployment App>" 
+        },
+        "appSecret": {
+            "value": "<Secret for APP ID used for tasks>"
+        },
+        "vmResourceGroup": {
+            "value": "<SET AS NEEDED E.G rg-prod-avd-vms>"
+        },
+        "vmLocation": {
+            "value": "<SET AS NEEDED E.G westeurope>"
+        },
+        "vmSize": {
+            "value": "<SET AS NEEDED E.G Standard_D8_v4>"
+        },
+        "numberOfInstances": {
+            "value": 2
+        },
+        "currentInstances": {
+            "value": 0
+        },
+        "vmPrefix": {
+            "value": "<SET AS NEEDED E.G AVD-PROD>"
+        },
+        "vmDiskType": {
+            "value": "Premium_LRS"
+        },
+        "existingVNETResourceGroup": {
+            "value": "<SET AS NEEDED E.G: RG-PROD-NETWORK-001>"
+        },
+        "existingVNETName": {
+            "value": "<SET AS NEEDED E.G VNET>"
+        },
+        "existingSubnetName": {
+            "value": "<SET AS NEEDED E.G Backnet>"
+        },
+        "sharedImageGallerySubscription": {
+            "value": "<Subscription that the Azure Compute Gallery resides in. SET AS NEEDED>"
+        },
+        "sharedImageGalleryResourceGroup": {
+            "value": "<SET AS NEEDED E.G: rg-we-aibimage>"
+        },
+        "sharedImageGalleryName": {
+            "value": "<SET AS NEEDED E.G: sig_we_main>"
+        },
+        "sharedImageGalleryDefinitionname": {
+            "value": "<SET AS NEEDED E.G: WVDGolden>"
+        },
+        "sharedImageGalleryVersionName": {
+            "value": "<SET AS NEEDED E.G: 1.11.0>"
+        },
+        "logworkspaceSub": {
+            "value": "<Subscription that the Log Analytics Workspace resides in. SET AS NEEDED>"
+        },
+        "logworkspaceResourceGroup": {
+            "value": "<SET AS NEEDED>"
+        },
+        "logworkspaceName": {
+            "value" : "<SET AS NEEDED E.G: CustomerLogAnalytics"
+        }
+    }
+}
