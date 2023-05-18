@@ -31,5 +31,5 @@ jobs:
       - name: Test Output
         shell: pwsh
         run: |
-          Write-Host "Token is: ${{ steps.preBuildScript.outputs.token}}"
+          Write-Host "Token is: ${{ steps.preBuildScript.outputs.TOKEN}}"
 
