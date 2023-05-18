@@ -18,7 +18,7 @@
             "value": "2023-05-19T00:00:01Z"
         },
         "ouPath": {
-            "value": "OU=AVD,OU=Servers,DC=domain,DC=co,DC=uk"
+            "value": "OU=AVD,OU=Servers,DC=tighetec,DC=co,DC=uk"
         },
         "domain": {
             "value": "domain.co.uk"
