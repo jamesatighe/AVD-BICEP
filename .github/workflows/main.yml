@@ -19,7 +19,15 @@ jobs:
         id: preBuildScript
         shell: pwsh
         run: |
-          ./PreBuild.ps1 -SharedImageGalleryResourceGroup ${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }} -SharedImageGalleryName ${{ vars.SHAREDIMAGEGALLERYNAME }} -SharedImageGalleryDefinitionName ${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }} -vmNamePrefix ${{ vars.VMNAMEPREFIX }} -resourceGroup ${{ vars.RESOURCEGROUP }} -hostPoolName ${{ vars.HOSTPOOLNAME }} -update ${{ vars.UPDATE }} -SharedImageGalleryVersionName ${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }} -newBuild ${{ vars.NEWBUILD }}
+          ./PreBuild.ps1 -SharedImageGalleryResourceGroup "${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }}" `
+          -SharedImageGalleryName "${{ vars.SHAREDIMAGEGALLERYNAME }}" `
+          -SharedImageGalleryDefinitionName "${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }}" `
+          -vmNamePrefix "${{ vars.VMNAMEPREFIX }}" `
+          -resourceGroup "${{ vars.RESOURCEGROUP }}" `
+          -hostPoolName "${{ vars.HOSTPOOLNAME }}" `
+          -update "${{ vars.UPDATE }}" `
+          -SharedImageGalleryVersionName "${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }}" `
+          -newBuild "${{ vars.NEWBUILD }}"
       - name: Test Output
         shell: pwsh
         run: |
