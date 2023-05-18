@@ -3,40 +3,40 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "AzTenantID": {
-            "value": "<SET AS NEEDED>"
+            "value": ""
         },
         "artifactsLocation": {
-            "value": "<This is were the DSC and other files exist. This must stay as the DSC is what joins to the Host Pool https://abriwvddev.blob.core.windows.net/templates/>" 
+            "value": "https://abriwvddev.blob.core.windows.net/templates/" 
         },
         "AVDResourceGroup": {
-            "value": "rg-prod-avd" 
+            "value": "rg-ne-avd-vms" 
         },
         "workspaceLocation": {
-            "value": "westeurope" 
+            "value": "northeurope" 
         },
         "tokenExpirationTime": {
-            "value": "<This must be set to a expiry time long enough to allow the session hosts to build E.G: 2023-05-19T00:00:01Z>"
+            "value": "2023-05-19T00:00:01Z"
         },
         "ouPath": {
-            "value": "<SET AS NEEEDED E.G OU=AVD,OU=Servers,DC=domain,DC=co,DC=uk>"
+            "value": "OU=AVD,OU=Servers,DC=domain,DC=co,DC=uk"
         },
         "domain": {
-            "value": "<SET AS NEEDED E.G domain.co.uk"
+            "value": "domain.co.uk"
         },
         "newBuild": {
             "value": true
         },
         "administratorAccountUserName": {
-            "value": "<SET AS NEEDED E.G admin@domain.co.uk>"
+            "value": ""
         },
         "administratorAccountPassword": {
-            "value": "<SET AS NEEDED>"
+            "value": ""
         },
         "hostPoolType": {
             "value": "Pooled"
         },
         "hostPoolName": {
-            "value": "<SET AS NEEDED>"
+            "value": "GitHub Test"
         },
         "personalDesktopAssignmentType": {
             "value": "Direct"
@@ -51,37 +51,37 @@
             "value": "audiocapturemode:i:1;audiomode:i:0;camerastoredirect:s:*;devicestoredirect:s:*;drivestoredirect:s:;redirectclipboard:i:1;redirectcomports:i:0;redirectprinters:i:1;redirectsmartcards:i:1;screen mode id:i:2" 
         },
         "hostPoolFriendlyName": {
-            "value": "<SET AS NEEDED E.G Customer AVD"
+            "value": ""
         },
         "workspaceName": {
-            "value": "<SET AS NEEDED>"
+            "value": ""
         },
         "appGroupFriendlyName": {
-            "value": "SET AS NEEDED E.G AVD Production"
+            "value": ""
         },
         "applicationGroupReferences": {
             "value": ""
         },
         "desktopName": {
-            "value": "<SET AS NEEDED E.G Company Desktop"
+            "value": ""
         },
         "defaultUsers": {
-            "value": "<Comma separated list of user to add, can also use Azure AD group ID E.G: user@domain.co.uk,e69f912e-545e-466f-bb91-fe6682065977" 
+            "value": "" 
         },
         "appID": {
-            "value": "<APP ID used to perform certain tasks to create users etc. Set to same as deployment App>" 
+            "value": "" 
         },
         "appSecret": {
-            "value": "<Secret for APP ID used for tasks>"
+            "value": ""
         },
         "vmResourceGroup": {
-            "value": "<SET AS NEEDED E.G rg-prod-avd-vms>"
+            "value": "rg-ne-avd-vms"
         },
         "vmLocation": {
-            "value": "<SET AS NEEDED E.G westeurope>"
+            "value": "northeurope"
         },
         "vmSize": {
-            "value": "<SET AS NEEDED E.G Standard_D8_v4>"
+            "value": "Standard_D2_v3"
         },
         "numberOfInstances": {
             "value": 2
@@ -90,43 +90,43 @@
             "value": 0
         },
         "vmPrefix": {
-            "value": "<SET AS NEEDED E.G AVD-PROD>"
+            "value": "AVD-PROD"
         },
         "vmDiskType": {
             "value": "Premium_LRS"
         },
         "existingVNETResourceGroup": {
-            "value": "<SET AS NEEDED E.G: RG-PROD-NETWORK-001>"
+            "value": "RG-PROD-NETWORKING"
         },
         "existingVNETName": {
-            "value": "<SET AS NEEDED E.G VNET>"
+            "value": "TIGHETEC-CORE-VNET"
         },
         "existingSubnetName": {
-            "value": "<SET AS NEEDED E.G Backnet>"
+            "value": "Core"
         },
         "sharedImageGallerySubscription": {
-            "value": "<Subscription that the Azure Compute Gallery resides in. SET AS NEEDED>"
+            "value": ""
         },
         "sharedImageGalleryResourceGroup": {
-            "value": "<SET AS NEEDED E.G: rg-we-aibimage>"
+            "value": ""
         },
         "sharedImageGalleryName": {
-            "value": "<SET AS NEEDED E.G: sig_we_main>"
+            "value": ""
         },
         "sharedImageGalleryDefinitionname": {
-            "value": "<SET AS NEEDED E.G: WVDGolden>"
+            "value": ""
         },
         "sharedImageGalleryVersionName": {
-            "value": "<SET AS NEEDED E.G: 1.11.0>"
+            "value": ""
         },
         "logworkspaceSub": {
-            "value": "<Subscription that the Log Analytics Workspace resides in. SET AS NEEDED>"
+            "value": ""
         },
         "logworkspaceResourceGroup": {
-            "value": "<SET AS NEEDED>"
+            "value": ""
         },
         "logworkspaceName": {
-            "value" : "<SET AS NEEDED E.G: CustomerLogAnalytics"
+            "value" : ""
         }
     }
 }
