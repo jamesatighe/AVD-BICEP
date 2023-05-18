@@ -34,7 +34,7 @@ jobs:
             -update "${{ vars.UPDATE }}" `
             -SharedImageGalleryVersionName "${{ vars.SHAREDIMAGEGALLERYVERSIONNAME }}" `
             -newBuild "${{ vars.NEWBUILD }}"
-
+          azPSVersion: "latest"
           
       - name: Deploy
         uses: azure/arm-deploy@v1
