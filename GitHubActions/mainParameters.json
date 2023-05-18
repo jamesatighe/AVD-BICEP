@@ -6,7 +6,7 @@
             "value": ""
         },
         "artifactsLocation": {
-            "value": "https://abriwvddev.blob.core.windows.net/templates/" 
+            "value": "https://tighedeploy.blob.core.windows.net/dsc/" 
         },
         "AVDResourceGroup": {
             "value": "rg-ne-avd" 
