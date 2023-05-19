@@ -163,6 +163,7 @@ module backPlane './modules/backPlane.bicep' = {
     tokenExpirationTime: tokenExpirationTime
     maxSessionLimit: maxSessionLimit
     newBuild: newBuild
+    update: update
   }
   dependsOn: [
     resourceGroupDeploy
