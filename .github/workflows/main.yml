@@ -63,5 +63,5 @@ jobs:
             -vmResourceGroup "${{ vars.VMRESOURCEGROUP }}" `
             -resourceGroup "${{ vars.RESOURCEGROUP }}" `
             -update "${{ vars.UPDATE }}" `
-            -version "${{ steps.preBuildScript.outputs.LATESTVERSION }}" `
+            -version "${{ steps.preBuildScript.outputs.LATESTVERSION }}"
           azPSVersion: "latest"
