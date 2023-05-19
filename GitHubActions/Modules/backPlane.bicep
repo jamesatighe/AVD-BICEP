@@ -62,7 +62,7 @@ var appGroupName = '${hostPoolName}-DAG'
 var appGroupResourceID = array(resourceId('Microsoft.DesktopVirtualization/applicationgroups/', appGroupName))
 var applicationGroupReferencesArr = applicationGroupReferences == '' ? appGroupResourceID : concat(split(applicationGroupReferences, ','), appGroupResourceID)
 
-resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2019-12-10-preview' = if (newBuild && update) {
+resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2019-12-10-preview' = if (newBuild && !update) {
   name: hostPoolName
   location: location
   properties: {
@@ -82,7 +82,7 @@ resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2019-12-10-preview'
   }
 }
 
-resource applicationGroup 'Microsoft.DesktopVirtualization/applicationGroups@2019-12-10-preview' = if (newBuild && update) {
+resource applicationGroup 'Microsoft.DesktopVirtualization/applicationGroups@2019-12-10-preview' = if (newBuild && !update) {
   name: appGroupName
   location: location
   properties: {
@@ -96,7 +96,7 @@ resource applicationGroup 'Microsoft.DesktopVirtualization/applicationGroups@201
   ]
 }
 
-resource workspace 'Microsoft.DesktopVirtualization/workspaces@2019-12-10-preview' = if (newBuild && update) {
+resource workspace 'Microsoft.DesktopVirtualization/workspaces@2019-12-10-preview' = if (newBuild && !update) {
   name: workspaceName
   location: workspaceLocation
   properties: {
