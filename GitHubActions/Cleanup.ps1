@@ -20,8 +20,9 @@ if ($update -eq "true") {
     $userList = @()
     
     foreach ($VM in $VMs) {
+        Write-Host "Version: $version"
         if (($VM.tags["Version"]) -ne $version) { 
-            Write-Host "$VM.name added to Powerdown script."
+            Write-Host "$($VM.name) added to Powerdown script."
             $VMList += $VM
         }
     }
