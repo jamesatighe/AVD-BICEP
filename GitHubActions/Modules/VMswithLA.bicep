@@ -35,6 +35,8 @@ param vmPrefix string
 param vmDiskType string
 param vmSize string
 param administratorAccountUserName string
+
+@secure()
 param administratorAccountPassword string
 param existingVNETResourceGroup string
 param existingVNETName string
