@@ -12,6 +12,9 @@ param workspaceLocation string
 @description('If true Host Pool, App Group and Workspace will be created. Default is to join Session Hosts to existing AVD environment')
 param newBuild bool = false
 
+@description('Combined with newBuild to ensure core AVD resources are not deployed when updating')
+param update bool = false
+
 @description('Expiration time for the HostPool registration token. This must be up to 30 days from todays date.')
 param tokenExpirationTime string
 
@@ -59,7 +62,7 @@ var appGroupName = '${hostPoolName}-DAG'
 var appGroupResourceID = array(resourceId('Microsoft.DesktopVirtualization/applicationgroups/', appGroupName))
 var applicationGroupReferencesArr = applicationGroupReferences == '' ? appGroupResourceID : concat(split(applicationGroupReferences, ','), appGroupResourceID)
 
-resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2019-12-10-preview' = if (newBuild) {
+resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2019-12-10-preview' = if (newBuild && update) {
   name: hostPoolName
   location: location
   properties: {
@@ -79,7 +82,7 @@ resource hostPool 'Microsoft.DesktopVirtualization/hostPools@2019-12-10-preview'
   }
 }
 
-resource applicationGroup 'Microsoft.DesktopVirtualization/applicationGroups@2019-12-10-preview' = if (newBuild) {
+resource applicationGroup 'Microsoft.DesktopVirtualization/applicationGroups@2019-12-10-preview' = if (newBuild && update) {
   name: appGroupName
   location: location
   properties: {
@@ -93,7 +96,7 @@ resource applicationGroup 'Microsoft.DesktopVirtualization/applicationGroups@201
   ]
 }
 
-resource workspace 'Microsoft.DesktopVirtualization/workspaces@2019-12-10-preview' = if (newBuild) {
+resource workspace 'Microsoft.DesktopVirtualization/workspaces@2019-12-10-preview' = if (newBuild && update) {
   name: workspaceName
   location: workspaceLocation
   properties: {
@@ -104,7 +107,7 @@ resource workspace 'Microsoft.DesktopVirtualization/workspaces@2019-12-10-previe
   ]
 }
 
-module Monitoring './Monitoring.bicep' = if (newBuild) {
+module Monitoring './Monitoring.bicep' = if (newBuild && update) {
   name: 'Monitoring'
   params: {
     hostpoolName: hostPoolName
