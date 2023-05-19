@@ -21,6 +21,7 @@ param desktopName string
 param appID string
 
 @description('Application Secret for Service Principal.')
+@secure()
 param appSecret string
 
 @description('CSV list of default users to assign to AVD Application Group.')
