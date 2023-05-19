@@ -67,6 +67,9 @@ param appGroupFriendlyName string
 param applicationGroupReferences string
 param desktopName string
 
+@description('Parameter to determine if user assignment is required. If true defaultUsers will be used.
+param assignUsers string
+
 @description('CSV list of default users to assign to AVD Application Group.')
 param defaultUsers string
 
@@ -190,6 +193,7 @@ module VMswithLA './modules/VMswithLA.bicep' = {
     appGroupName: reference(extensionResourceId('/subscriptions/${subscription().subscriptionId}/resourceGroups/${AVDResourceGroup}', 'Microsoft.Resources/deployments', 'backPlane'), '2019-10-01').outputs.appGroupName.value
     appID: appID
     appSecret: appSecret
+    assignUsers: assignUsers
     defaultUsers: defaultUsers
     desktopName: desktopName
     resourceGroupName: AVDResourceGroup
