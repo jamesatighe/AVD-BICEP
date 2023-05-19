@@ -67,7 +67,7 @@ param appGroupFriendlyName string
 param applicationGroupReferences string
 param desktopName string
 
-@description('Parameter to determine if user assignment is required. If true defaultUsers will be used.
+@description('Parameter to determine if user assignment is required. If true defaultUsers will be used.')
 param assignUsers string
 
 @description('CSV list of default users to assign to AVD Application Group.')
