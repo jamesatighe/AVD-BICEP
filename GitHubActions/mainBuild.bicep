@@ -74,6 +74,7 @@ param defaultUsers string
 param appID string
 
 @description('Application Secret for Service Principal.')
+@secure()
 param appSecret string
 param vmResourceGroup string
 param vmLocation string
