@@ -24,6 +24,9 @@ param appID string
 @secure()
 param appSecret string
 
+@description('Parameter to determine if user assignment is required. If true defaultUsers will be used.')
+param assignUsers string
+
 @description('CSV list of default users to assign to AVD Application Group.')
 param defaultUsers string
 param vmPrefix string
@@ -243,6 +246,7 @@ resource dscextension 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' 
         AzTenantID: AzTenantID
         AppID: appID
         AppSecret: appSecret
+        AssignUsers: assignUsers
         DefaultUsers: defaultUsers
         vmPrefix: vmPrefix
       }
