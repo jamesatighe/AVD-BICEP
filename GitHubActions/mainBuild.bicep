@@ -27,6 +27,10 @@ param domain string
 
 @description('If true Host Pool, App Group and Workspace will be created. Default is to join Session Hosts to existing AVD environment')
 param newBuild bool = false
+
+@description('Combined with newBuild to ensure core AVD resources are not deployed when updating')
+param update bool = false
+
 param administratorAccountUserName string
 
 @secure()
