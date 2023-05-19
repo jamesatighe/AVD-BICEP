@@ -133,7 +133,7 @@ param workspaceID string
 param workspaceKey string
 
 module resourceGroupDeploy './modules/resourceGroup.bicep' = {
-  name: 'backPlane'
+  name: 'resourceGroup'
   params: {
     AVDResourceGroup: AVDResourceGroup
     AVDlocation: workspaceLocation
