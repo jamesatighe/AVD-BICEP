@@ -1,53 +1,68 @@
+//***********************************************************************************************************************
+//Core Deployment Parametes
 targetScope = 'subscription'
 param AzTenantID string
 param artifactsLocation string
 param AVDResourceGroup string
 param workspaceLocation string
 
-@description('Boolean used to determine if Monitoring agent is needed')
-param monitoringAgent bool = false
-
-@description('Wheter to use emphemeral disks for VMs')
-param ephemeral bool = true
-
-@description('Declares whether Azure AD joined or not')
-param AADJoin bool = false
-
-@description('Determines if Session Hosts are auto enrolled in Intune')
-param intune bool = false
-
-@description('Expiration time for the HostPool registration token. This must be up to 30 days from todays date.')
-param tokenExpirationTime string
-
-@description('OU Path were new AVD Session Hosts will be placed in Active Directory')
-param ouPath string
-
-@description('Domain that AVD Session Hosts will be joined to.')
-param domain string
-
+//***********************************************************************************************************************
+//Core Build Options Update, NewBuild
 @description('If true Host Pool, App Group and Workspace will be created. Default is to join Session Hosts to existing AVD environment')
 param newBuild bool = false
-
 @description('Combined with newBuild to ensure core AVD resources are not deployed when updating')
 param update bool = false
 
-param administratorAccountUserName string
+//***********************************************************************************************************************
+//Options Azure AD Join, Intune, Ephemeral disks etc
+@description('Boolean used to determine if Monitoring agent is needed')
+param monitoringAgent bool = false
+@description('Wheter to use emphemeral disks for VMs')
+param ephemeral bool = true
+@description('Declares whether Azure AD joined or not')
+param AADJoin bool = false
+@description('Determines if Session Hosts are auto enrolled in Intune')
+param intune bool = false
 
-@secure()
-param administratorAccountPassword string
+//***********************************************************************************************************************
+//Workspace
+@description('Name of the AVD Workspace to used for this deployment')
+param workspaceName string = 'ABRI-AVD-PROD'
 
-@allowed([
-  'Personal'
-  'Pooled'
-])
-param hostPoolType string = 'Pooled'
+@description('List of application group resource IDs to be added to Workspace. MUST add existing ones! Add the resource ID of existing App Groups.')
+param applicationGroupReferences string
+
+//***********************************************************************************************************************
+//Application Group Settings
+@description('Application Group Friendly name. This shows in Remote Desktop client.')
+param appGroupFriendlyName string
+
+@description('Friendly name of Desktop Application Group. This is shown under Remote Desktop client.')
+param desktopName string
+
+//***********************************************************************************************************************
+//Host Pool Settings
+@description('Name for Host Pool.')
 param hostPoolName string
 
+@description('Friendly Name of the Host Pool, this is visible via the AVD client')
+param hostPoolFriendlyName string
+
+@description('Type used for Host Pool.')
+@allowed([
+  'Pooled'
+  'Personal'
+])
+param hostPoolType string = 'Pooled'
+
+@description('If Personal Host Pool type the assignment type.')
 @allowed([
   'Automatic'
   'Direct'
 ])
 param personalDesktopAssignmentType string = 'Direct'
+
+@description('Specify the maximum session limit for the Session Hosts.')
 param maxSessionLimit int = 12
 
 @allowed([
@@ -60,44 +75,60 @@ param loadBalancerType string = 'BreadthFirst'
 @description('Custom RDP properties to be applied to the AVD Host Pool.')
 param customRdpProperty string
 
-@description('Friendly Name of the Host Pool, this is visible via the AVD client')
-param hostPoolFriendlyName string
+@description('Expiration time for the HostPool registration token. This must be up to 30 days from todays date.')
+param tokenExpirationTime string
 
-@description('Name of the AVD Workspace to used for this deployment')
-param workspaceName string = 'ABRI-AVD-PROD'
-param appGroupFriendlyName string
+@description('OU Path were new AVD Session Hosts will be placed in Active Directory')
+param ouPath string
 
-@description('List of application group resource IDs to be added to Workspace. MUST add existing ones!')
-param applicationGroupReferences string
-param desktopName string
+@description('Domain that AVD Session Hosts will be joined to.')
+param domain string
 
-@description('Parameter to determine if user assignment is required. If true defaultUsers will be used.')
-param assignUsers string
+//***********************************************************************************************************************
+//Session Host VM Settings
+@description('Administrator Login Username Domain Join operation.')
+param administratorAccountUserName string
 
-@description('CSV list of default users to assign to AVD Application Group.')
-param defaultUsers string
-
-@description('Application ID for Service Principal. Used for DSC scripts.')
-param appID string
-
-@description('Application Secret for Service Principal.')
+@description('Administrator Login Password Domain Join operation.')
 @secure()
-param appSecret string
-param vmResourceGroup string
-param vmLocation string
-param vmSize string
-param numberOfInstances int = 2
-param currentInstances int = 0
-param vmPrefix string = 'ABRI-AVD-PROD'
+param administratorAccountPassword string
 
+@description('Local Administrator Login Username for Session Hosts.')
+param localAdministratorAccountUserName string
+
+@description('Administrator Login Password for Session Hosts.')
+@secure()
+param localAdministratorAccountPassword string
+
+@description('Resource Group to deploy Session Host VMs into.')
+param vmResourceGroup string
+
+@description('Azure Region to deploy VM Session Hosts into.')
+param vmLocation string
+
+@description('VM Size to be used for Session Host build. E.g. Standard_D2s_v3')
+param vmSize string
+
+@description('Number of Session Host VMs required.')
+param numberOfInstances int = 2
+
+@description('Current number of Session Host VMs. Populated automatically for upgrade build. Do not edit.')
+param currentInstances int = 0
+
+@description('Prefix to use for Session Host VM build. Build will add the version details to this. E.g. AVD-PROD-11-0-x X being machine number.')
+param vmPrefix string = 'AVD-PROD'
+
+@description('Required storage type for Session Host VM OS disk.')
 @allowed([
   'Standard_LRS'
   'Premium_LRS'
 ])
 param vmDiskType string
+
+@description('Resource Group containing the VNET to which to join Session Host VMs.')
 param existingVNETResourceGroup string
 
-@description('Name of the VNET that the AVD Session Hosts will be connected to.')
+@description('Name of the VNET that the Session Host VMs will be connected to.')
 param existingVNETName string
 
 @description('The name of the relevant VNET Subnet that is to be used for deployment.')
@@ -118,19 +149,41 @@ param sharedImageGalleryDefinitionname string
 @description('Version name for image to be deployed as. I.e: 1.0.0')
 param sharedImageGalleryVersionName string
 
+//***********************************************************************************************************************
+//DSC Parameters
+@description('Parameter to determine if user assignment is required. If true defaultUsers will be used.')
+param assignUsers string
+
+@description('CSV list of default users to assign to AVD Application Group.')
+param defaultUsers string
+
+@description('Application ID for Service Principal. Used for DSC scripts.')
+param appID string
+
+@description('Application Secret for Service Principal.')
+@secure()
+param appSecret string
+
+
+//***********************************************************************************************************************
 //Used for Monitoring Module
 @description('Subscription that Log Analytics Workspace is located in.')
 param logworkspaceSub string
+
 @description('Resource Group that Log Analytics Workspace is located in.')
 param logworkspaceResourceGroup string
+
 @description('Name of Log Analytics Workspace for AVD to be joined to.')
 param logworkspaceName string
 
-//Used in VMswitLA module
 @description('Log Analytics Workspace ID')
 param workspaceID string
+
 @description('Log Analytics Workspace Key')
 param workspaceKey string
+
+//***********************************************************************************************************************
+//Modules
 
 module resourceGroupDeploy './modules/resourceGroup.bicep' = {
   name: 'resourceGroup'
@@ -178,6 +231,8 @@ module VMswithLA './modules/VMswithLA.bicep' = {
     location: vmLocation
     administratorAccountUserName: administratorAccountUserName
     administratorAccountPassword: administratorAccountPassword
+    localAdministratorAccountUserName: localAdministratorAccountUserName
+    localAdministratorAccountPassword: localAdministratorAccountPassword
     artifactsLocation: artifactsLocation
     vmDiskType: vmDiskType
     vmPrefix: vmPrefix
