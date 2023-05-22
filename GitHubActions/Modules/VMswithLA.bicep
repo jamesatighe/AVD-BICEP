@@ -124,7 +124,6 @@ param workspaceKey string
 //Variables - All
 var subnetID = resourceId(existingVNETResourceGroup, 'Microsoft.Network/virtualNetworks/subnets', existingVNETName, existingSubnetName)
 var avSetSKU = 'Aligned'
-var localAdminUser = first(split(localAdministratorAccountUserName, '@'))
 var networkAdapterPostfix = '-nic'
 
 
@@ -180,7 +179,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-11-01' = [for i in range(0, 
     }
     osProfile: {
       computerName: '${vmPrefix}-${i + currentInstances}'
-      adminUsername: localAdminUser
+      adminUsername: localAdministratorAccountUserName
       adminPassword: localAdministratorAccountPassword
       windowsConfiguration: {
         enableAutomaticUpdates: false
