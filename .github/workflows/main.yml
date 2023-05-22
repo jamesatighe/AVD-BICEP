@@ -9,12 +9,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install from PSGallery
-        shell: pwsh
-        run: |
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module Az.Compute
-          
+         
       - name: Login to Azure
         uses: azure/login@v1
         with:
