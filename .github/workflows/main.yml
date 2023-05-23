@@ -44,7 +44,6 @@ jobs:
           
       - name: Cleanup Script
         uses: azure/powershell@v1
-        id: CleanupScript
         with:
           inlineScript: |
             ./GitHubActions/Cleanup.ps1 -hostPoolName "${{ vars.HOSTPOOLNAME }}" `
