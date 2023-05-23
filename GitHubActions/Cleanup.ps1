@@ -94,9 +94,11 @@ if ($update -eq "true") {
             
             #Set Tag for removal
             $tags = (Get-AzResource -ResourceGroupName $VM.ResourceGroupName -Name $VM.Name).Tags
-            $tags += @{Remove = "True" }
-            Set-AzResource -ResourceGroupName $VM.ResourceGroupName -Name $VM.Name -ResourceType "Microsoft.Compute/VirtualMachines" -Tag $tags -Force
-
+            #Logic to skip if Remove tag already exists
+            if (!$tags["Remove"]) {
+                $tags += @{Remove = "True" }
+                Set-AzResource -ResourceGroupName $VM.ResourceGroupName -Name $VM.Name -ResourceType "Microsoft.Compute/VirtualMachines" -Tag $tags -Force
+            }
             if ($VM.PowerState -eq "VM running") {
                
                 $params = @($VM.Name, $VM.ResourceGroupName)
