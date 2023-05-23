@@ -13,7 +13,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_GALLERY }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
           
       - name: Pre-build Script
@@ -42,12 +42,6 @@ jobs:
           parameters: "./GitHubActions/mainParameters.JSON AVDResourceGroup=${{ vars.RESOURCEGROUP }} tokenExpirationTime=${{ steps.preBuildScript.outputs.TOKEN }} newBuild=${{ vars.NEWBUILD }} sharedImageGallerySubscription=${{ secrets.AZURE_GALLERY_SUBSCRIPTION }} sharedImageGalleryResourceGroup=${{ vars.SHAREDIMAGEGALLERYRESOURCEGROUP }} sharedImageGalleryName=${{ vars.SHAREDIMAGEGALLERYNAME }} sharedImageGalleryDefinitionname=${{ vars.SHAREDIMAGEGALLERYDEFINITIONNAME }} sharedImageGalleryVersionName=${{ steps.preBuildScript.outputs.LATESTVERSION }} AADJoin=false intune=false ephemeral=${{ vars.EPHEMERAL }} vmResourceGroup=${{ vars.VMRESOURCEGROUP }} vmSize=${{ vars.VMSIZE }} vmLocation=${{ vars.VMLOCATION }} vmDiskType=${{ vars.VMDISKTYPE }} vmPrefix=${{ steps.preBuildScript.outputs.PREFIX }} numberOfInstances=${{ vars.NUMBEROFINSTANCES }} currentInstances=${{ steps.preBuildScript.outputs.CURRENTNOHOSTS }} AzTenantID=${{ secrets.AZURE_TENANTID }} appID=${{ secrets.APPID }} appSecret=${{ secrets.APPSECRET }} assignUsers=${{ vars.ASSIGNUSERS }} defaultUsers=${{ vars.DEFAULTUSERS }} logworkspaceSub=${{ secrets.LOGWORKSPACESUB }} logworkspaceResourceGroup=${{ vars.LOGWORKSPACERESOURCEGROUP }} logworkspaceName=${{ vars.LOGWORKSPACENAME }} workspaceKey=${{ secrets.WORKSPACEKEY }} workspaceID=${{ secrets.WORKSPACEID }} domain=${{ secrets.DOMAIN }} administratorAccountUserName=${{ secrets.ADMINUSERNAME }} administratorAccountPassword=${{ secrets.ADMINPASSWORD }} localAdministratorAccountUserName=${{ secrets.LOCALADMINUSERNAME }} localAdministratorAccountPassword=${{ secrets.LOCALADMINPASSWORD }}"
           failOnStdErr: false
           
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          enable-AzPSSession: true
-
       - name: Cleanup Script
         uses: azure/powershell@v1
         id: CleanupScript
