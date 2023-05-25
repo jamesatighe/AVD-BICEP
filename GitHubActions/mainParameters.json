@@ -54,10 +54,10 @@
             "value": "GitHub Test Host Pool"
         },
         "workspaceName": {
-            "value": "GitHub Workspace"
+            "value": "Dev Workspace"
         },
         "appGroupFriendlyName": {
-            "value": "GitHub Test Desktops"
+            "value": "Tighetec Desktop (AD)"
         },
         "applicationGroupReferences": {
             "value": ""
