@@ -67,7 +67,7 @@ Also . . .
 
 Have updated the DSC script that runs in the background. This will now install the newest RDAgent and is slightly streamlined.
 
-**01/06/2022**
+## Updated 01/06/2022
 
 Added the ability to add AVD Session Hosts to Log Analytics workspace.
 
