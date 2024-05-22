@@ -39,6 +39,33 @@ param appGroupFriendlyName string
 param desktopName string
 
 //***********************************************************************************************************************
+//Disk Encryption Settings - Key Vault etc
+@description('Key Vault Name for Disk Encryption.')
+param keyVaultName string = 'KV-TIGHE-AVDENC'
+
+@description('Key Vault Disk Encryption SKU')
+@allowed([
+  'standard'
+  'premium'
+])
+param keyVaultSKU string = 'standard'
+
+@description('The JsonWebKeyType of the key to be created.')
+@allowed([
+  'EC'
+  'EC-HSM'
+  'RSA'
+  'RSA-HSM'
+])
+param keyType string = 'RSA'
+
+@description('Key Size.')
+param keySize int = 2048
+
+@description('Is Disk Encryption needed.')
+param diskEncryptionRequired bool
+
+//***********************************************************************************************************************
 //Host Pool Settings
 @description('Name for Host Pool.')
 param hostPoolName string
@@ -243,6 +270,21 @@ module backPlane './modules/backPlane.bicep' = {
   ]
 }
 
+module diskEncryptionSet './Modules/DiskEncryption.bicep' = {
+  name: 'DiskEncryptionSet'
+  scope: resourceGroup(vmResourceGroup)
+  params: {
+    location: vmLocation
+    keyVaultName: keyVaultName
+    keyVaultSKU: keyVaultSKU
+    keyType: keyType
+    keySize: keySize
+  }
+  dependsOn: [
+    resourceGroupDeploy
+  ]
+}
+
 module VMswithLA './modules/VMs.bicep' = {
   name: '${sharedImageGalleryVersionName}-VMs'
   scope: resourceGroup(vmResourceGroup)
@@ -287,8 +329,13 @@ module VMswithLA './modules/VMs.bicep' = {
     ephemeral: ephemeral
     AADJoin: AADJoin
     intune: intune
+    keyUrl: diskEncryptionSet.outputs.keyUrl
+    keyVaultResourceId: diskEncryptionRequired ? diskEncryptionSet.outputs.keyVaultResourceId : 'null'
+    keyVaultUrl: diskEncryptionRequired ? diskEncryptionSet.outputs.keyVaultUrl : 'null' 
+    diskEncryptionRequired: diskEncryptionRequired
   }
   dependsOn: [
     backPlane
+    diskEncryptionSet
   ]
 }
