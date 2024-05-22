@@ -68,6 +68,17 @@ param vmDiskType string
 @description('VM Size to be used for Session Host build. E.g. Standard_D2s_v3')
 param vmSize string
 
+@description('Is Disk Encryption needed.')
+param diskEncryptionRequired bool
+
+@description('KeyVault Resource ID for Disk Encryption.')
+param keyVaultResourceId string
+
+@description('KeyVault URI for Disk Encryption.')
+param keyVaultUrl string
+
+@description('KeyVault Key URI.')
+param keyUrl string
 
 @description('Administrator Login Username Domain Join operation.')
 param administratorAccountUserName string
@@ -357,6 +368,32 @@ resource dscextension 'Microsoft.Compute/virtualMachines/extensions@2021-11-01' 
 //     dscextension[i]
 //   ]
 // }]
+
+//***********************************************************************************************************************
+//Resources - Disk Encryption Set
+resource AVDDiskEncryption 'Microsoft.Compute/virtualMachines/extensions@2024-03-01' = [for i in range(0, AVDnumberOfInstances): if (diskEncryptionRequired == true) {
+  name: '${vmPrefix}-${i + currentInstances}/diskencryptionset'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Azure.Security'
+    type: 'AzureDiskEncryption'
+    typeHandlerVersion: '2.2'
+    autoUpgradeMinorVersion: true
+    settings: {
+      EncryptionOperation: 'EnableEncryption'
+      KeyEncryptionKeyURL: keyUrl
+      KeyVaultURL: keyVaultUrl
+      KeyVaultResourceId: keyVaultResourceId
+      KekVaultResourceId: keyVaultResourceId
+      KeyEncryptionAlgorithm: 'RSA-OAEP'
+      VolumeType: 'All'
+      ResizeOSDisk: false
+    }
+  }
+  dependsOn: [
+    vm[i]
+  ]
+}]
 
 //***********************************************************************************************************************
 //Resources - Azure Monitoring Agent - Replacing Microsoft Monitoring Agent
