@@ -1,6 +1,73 @@
 # AVD-BICEP
 
-## Updated 15/05/2025
+## Updated 22/05/2024
+Another major update to add Disk Encryption functionality to the scripting.
+
+Changes were made to **MainBuild.bicep**, **VMs.bicep** and a new module was created called **DiskEncryption.bicep**.
+
+A number of new parameters have been added to support the Disk Encryption as below:
+
+    @description('Key Vault Name for Disk Encryption.')
+    param keyVaultName string = 'KV-TIGHE-AVDENC'
+    
+    @description('Key Vault Disk Encryption SKU')
+    @allowed([
+      'standard'
+      'premium'
+    ])
+    param keyVaultSKU string = 'standard'
+    
+    @description('The JsonWebKeyType of the key to be created.')
+    @allowed([
+      'EC'
+      'EC-HSM'
+      'RSA'
+      'RSA-HSM'
+    ])
+    param keyType string = 'RSA'
+    
+    @description('Key Size.')
+    param keySize int = 2048
+    
+    @description('Is Disk Encryption needed.')
+    param diskEncryptionRequired bool
+
+The KeySize parameter will need be set to either **3072** or **4096** to work with Windows 11 or Server 2022.
+
+***This is do to an issue with the newer version of BitLocker in these OS' not working correclty with 2048 length keys.***
+
+
+The **diskEncryptionRequired** boolean is used to control whether the Disk Encryption VM Extension is installed onto the Session Host VMs. 
+
+
+The VMs module has been updated to deploy Disk Encryption via an Azure VM extension. 
+
+    resource AVDDiskEncryption 'Microsoft.Compute/virtualMachines/extensions@2024-03-01' = [for i in range(0, AVDnumberOfInstances): if (diskEncryptionRequired == true) {
+      name: '${vmPrefix}-${i + currentInstances}/diskencryptionset'
+      location: location
+      properties: {
+        publisher: 'Microsoft.Azure.Security'
+        type: 'AzureDiskEncryption'
+        typeHandlerVersion: '2.2'
+        autoUpgradeMinorVersion: true
+        settings: {
+          EncryptionOperation: 'EnableEncryption'
+          KeyEncryptionKeyURL: keyUrl
+          KeyVaultURL: keyVaultUrl
+          KeyVaultResourceId: keyVaultResourceId
+          KekVaultResourceId: keyVaultResourceId
+          KeyEncryptionAlgorithm: 'RSA-OAEP'
+          VolumeType: 'All'
+          ResizeOSDisk: false
+        }
+      }
+      dependsOn: [
+        vm[i]
+      ]
+    }]
+
+    
+## Updated 15/05/2024
 Some major updates the the script and how it works added a number of new features.
 
 - Support for Trusted Launch VM images (requires a suitable Azure Compute Gallery image)
